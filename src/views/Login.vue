@@ -107,7 +107,7 @@ const login = async () => {
   max-width: 400px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  background: white;
+  background: var(--color-white);
 }
 
 .card-body-login {
@@ -120,25 +120,25 @@ const login = async () => {
   font-size: 1.8rem;
   margin-top: 1rem;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--color-gray-dark);
 }
 
 .form-control {
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-gray);
   padding: 10px;
   font-size: 16px;
   width: 100%;
 }
 
 .form-control:focus {
-  border-color: #8b5cf6;
+  border-color: var(--color-primary);
   outline: none;
-  box-shadow: 0 0 5px rgba(142, 68, 173, 0.3);
+  box-shadow: 0 0 5px var(--color-primary-light);
 }
 
 .btn-primary {
-  background-color: #8b5cf6;
+  background-color: var(--color-primary);
   border: none;
   padding: 12px;
   font-size: 16px;
@@ -147,17 +147,18 @@ const login = async () => {
 }
 
 .btn-primary:hover {
-  background-color: #6d28d9;
+  background-color: var(--color-primary-dark);
 }
 
 .text-center a {
-  color: #8b5cf6;
+  color: var(--color-primary);
   text-decoration: none;
   font-weight: 600;
 }
 
 .text-center a:hover {
   text-decoration: underline;
+  color: var(--color-primary-dark);
 }
 
 img {

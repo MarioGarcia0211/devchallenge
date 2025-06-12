@@ -1,14 +1,14 @@
 body.bg-login {
-  background-color: #8b5cf6;
+  background-color: var(--color-primary);;
 }
 
 body.bg-default {
-  background-color: #f8f7fa;
+  background-color: var(--color-gray-light);
   /* background-color: #e2e7f8; */
 }
 
 .contenedor-card{
-  background-color: white;
+  background-color: var(--color-white);;
   padding: 2rem;
   border-radius: 12px;
 }

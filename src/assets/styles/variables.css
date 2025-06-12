@@ -1,0 +1,18 @@
+:root {
+  /* Paleta principal */
+  --color-primary: #8b5cf6;
+  --color-primary-dark: #6d28d9;
+  --color-primary-light: rgba(139, 92, 246, 0.25);
+
+  /* Neutros */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-gray-light: #f8f7fa;
+  --color-gray: #ccc;
+  --color-gray-dark: #333;
+
+  /* Estados */
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+}
