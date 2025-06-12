@@ -216,7 +216,7 @@ const paises = ["Colombia", "Argentina", "México", "Perú", "Chile", "Ecuador"]
 .form-select:focus {
   border-color: #8b5cf6;
   outline: none;
-  box-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.25);
 }
 
 .form-select:hover {
