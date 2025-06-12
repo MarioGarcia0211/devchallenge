@@ -26,6 +26,14 @@
           @seleccionar-tipo="manejarSeleccionTipoUsuario"
         />
 
+        <!-- PASOS PARA Persona -->
+        <PersonStep2BasicData
+          v-if="tipoUsuario === 'persona' && pasoActual === 2"
+          v-model="datosPersona"
+          @siguiente="siguientePaso"
+          @anterior="pasoActual--"
+        />
+
         <p class="mt-3 text-center">
           ¿Ya tienes una cuenta?
           <router-link to="/login">Inicia sesión</router-link>
@@ -43,6 +51,7 @@ import { useRouter } from "vue-router";
 import { registrarUsuario } from "../services/authServices";
 import Toast from "../components/Toast/Toast.vue";
 import Step1UserType from "../components/Register.vue/Step1UserType.vue";
+import PersonStep2BasicData from "../components/Register.vue/PersonStep2BasicData.vue";
 
 const router = useRouter();
 const pasoActual = ref(1);

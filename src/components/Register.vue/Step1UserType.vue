@@ -100,4 +100,11 @@ const emitirSeleccion = () => {
 .btn-primary:hover {
   background-color: #6d28d9;
 }
+
+.btn-primary:disabled {
+  background-color: #8b5cf6 !important;
+  border: none;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 </style>
