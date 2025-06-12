@@ -214,19 +214,32 @@ const paises = ["Colombia", "Argentina", "México", "Perú", "Chile", "Ecuador"]
 <style scoped>
 .form-control:focus,
 .form-select:focus {
-  border-color: #8b5cf6;
+  border-color: var(--color-primary);
   outline: none;
-  box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.25);
+  box-shadow: 0 0 0 0.2rem var(--color-primary-light);
 }
 
 .form-select:hover {
-  border-color: #8b5cf6;
-  box-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 5px var(--color-primary-light);
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
+.btn-primary {
+  background-color: var(--color-primary);
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
 .btn-primary:disabled {
-  background-color: #8b5cf6 !important;
+  background-color: var(--color-primary) !important;
   border: none;
   opacity: 0.6;
   cursor: not-allowed;

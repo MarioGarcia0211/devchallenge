@@ -80,16 +80,16 @@ const emitirSeleccion = () => {
 
 <style scoped>
 .form-check-input:checked {
-  background-color: #8b5cf6;
-  border-color: #8b5cf6;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 .form-check-input:focus {
-  box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.25);
+  box-shadow: 0 0 0 0.2rem var(--color-primary-light);
 }
 
 .btn-primary {
-  background-color: #8b5cf6;
+  background-color: var(--color-primary);
   border: none;
   padding: 12px;
   font-size: 16px;
@@ -98,11 +98,11 @@ const emitirSeleccion = () => {
 }
 
 .btn-primary:hover {
-  background-color: #6d28d9;
+  background-color: var(--color-primary-dark);
 }
 
 .btn-primary:disabled {
-  background-color: #8b5cf6 !important;
+  background-color: var(--color-primary) !important;
   border: none;
   opacity: 0.6;
   cursor: not-allowed;
