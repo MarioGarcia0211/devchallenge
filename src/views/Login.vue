@@ -3,6 +3,22 @@
   <div class="container-login">
     <div class="card card-login shadow-lg">
       <div class="card-body card-body-login">
+        <!-- Logo -->
+        <div class="text-center">
+          <img
+            src="../assets/logo.png"
+            alt="Logo de la empresa"
+            class="img-fluid"
+            style="
+              max-height: 60px;
+              object-fit: contain;
+              padding: 0;
+              margin: 0 auto 10px auto;
+              display: block;
+            "
+          />
+        </div>
+
         <!-- Titulo -->
         <h1 class="text-center">Iniciar Sesión</h1>
 
@@ -94,12 +110,17 @@ const login = async () => {
   background: white;
 }
 
-.card-body-login h1 {
-  text-transform: uppercase;
-}
-
 .card-body-login {
   padding: 2rem;
+}
+
+.card-body-login h1 {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.8rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  color: #333;
 }
 
 .form-control {
@@ -110,14 +131,37 @@ const login = async () => {
   width: 100%;
 }
 
+.form-control:focus {
+  border-color: #8b5cf6;
+  outline: none;
+  box-shadow: 0 0 5px rgba(142, 68, 173, 0.3);
+}
+
+.btn-primary {
+  background-color: #8b5cf6;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #6d28d9;
+}
+
 .text-center a {
-  color: #007bff;
+  color: #8b5cf6;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .text-center a:hover {
   text-decoration: underline;
+}
+
+img {
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 480px) {
