@@ -1,0 +1,24 @@
+body.bg-login {
+  background-color: #007bff;
+}
+
+body.bg-default {
+  background-color: #f8f7fa;
+  /* background-color: #e2e7f8; */
+}
+
+.contenedor-card{
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+}
+
+.cont-fluid {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  min-height: 74.5vh;
+}
