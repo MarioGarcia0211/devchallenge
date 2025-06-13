@@ -41,6 +41,13 @@
           @anterior="pasoActual--"
         />
 
+        <PersonStep4Contact
+          v-if="tipoUsuario === 'persona' && pasoActual === 4"
+          v-model="datosPersona"
+          @enviar="registrarPersona"
+          @anterior="pasoActual--"
+        />
+
         <p class="mt-3 text-center">
           ¿Ya tienes una cuenta?
           <router-link to="/login">Inicia sesión</router-link>
@@ -60,6 +67,7 @@ import Toast from "../components/Toast/Toast.vue";
 import Step1UserType from "../components/Register.vue/Step1UserType.vue";
 import PersonStep2BasicData from "../components/Register.vue/PersonStep2BasicData.vue";
 import PersonStep3Technologies from "../components/Register.vue/PersonStep3Technologies.vue";
+import PersonStep4Contact from "../components/Register.vue/PersonStep4Contact.vue";
 
 const router = useRouter();
 const pasoActual = ref(1);
