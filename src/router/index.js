@@ -11,6 +11,7 @@ import { doc, getDoc } from "firebase/firestore";
 // Importación de componentes de vista (páginas principales)
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
+import UserProfile from "../views/UserProfile.vue"
 
 // Definición de rutas
 const routes = [
@@ -20,6 +21,12 @@ const routes = [
   },
   { path: "/login", name: "login", component: Login },
   { path: "/register", name: "register", component: Register },
+  // Perfil de usuario (persona)
+  {
+    path: "/user-profile",
+    name: "userProfile",
+    component: UserProfile,
+  },
 ];
 
 // Crear el router

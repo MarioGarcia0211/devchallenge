@@ -6,11 +6,11 @@
         <!-- Logo -->
         <div class="text-center">
           <img
-            src="../assets/logo.png"
+            src="../assets/logoDevChallenge.svg"
             alt="Logo de la empresa"
             class="img-fluid"
             style="
-              max-height: 60px;
+              max-height: 50px;
               object-fit: contain;
               padding: 0;
               margin: 0 auto 10px auto;
