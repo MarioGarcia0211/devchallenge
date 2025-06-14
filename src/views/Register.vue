@@ -33,18 +33,24 @@
           @siguiente="siguientePaso"
           @anterior="pasoActual--"
         />
-
         <PersonStep3Technologies
           v-if="tipoUsuario === 'persona' && pasoActual === 3"
           v-model="datosPersona"
           @siguiente="siguientePaso"
           @anterior="pasoActual--"
         />
-
         <PersonStep4Contact
           v-if="tipoUsuario === 'persona' && pasoActual === 4"
           v-model="datosPersona"
           @enviar="registrarPersona"
+          @anterior="pasoActual--"
+        />
+
+        <!-- PASOS PARA EMPRESA -->
+        <CompanyStep2CompanyData
+          v-if="tipoUsuario === 'empresa' && pasoActual === 2"
+          v-model="datosEmpresa"
+          @siguiente="siguientePaso"
           @anterior="pasoActual--"
         />
 
@@ -68,6 +74,7 @@ import Step1UserType from "../components/Register.vue/Step1UserType.vue";
 import PersonStep2BasicData from "../components/Register.vue/PersonStep2BasicData.vue";
 import PersonStep3Technologies from "../components/Register.vue/PersonStep3Technologies.vue";
 import PersonStep4Contact from "../components/Register.vue/PersonStep4Contact.vue";
+import CompanyStep2CompanyData from "../components/Register.vue/CompanyStep2CompanyData.vue";
 
 const router = useRouter();
 const pasoActual = ref(1);
