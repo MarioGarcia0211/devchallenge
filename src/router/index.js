@@ -12,6 +12,7 @@ import { doc, getDoc } from "firebase/firestore";
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
 import UserProfile from "../views/UserProfile.vue"
+import CompanyProfile from "../views/CompanyProfile.vue";
 
 // Definición de rutas
 const routes = [
@@ -27,6 +28,12 @@ const routes = [
     name: "userProfile",
     component: UserProfile,
   },
+  // Perfil de usuario (empresa)
+  {
+    path: "/company-profile",
+    name: "companyProfile",
+    component: CompanyProfile
+  }
 ];
 
 // Crear el router
