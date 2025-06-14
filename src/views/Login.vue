@@ -123,33 +123,6 @@ const login = async () => {
   color: var(--color-gray-dark);
 }
 
-.form-control {
-  border-radius: 8px;
-  border: 1px solid var(--color-gray);
-  padding: 10px;
-  font-size: 16px;
-  width: 100%;
-}
-
-.form-control:focus {
-  border-color: var(--color-primary);
-  outline: none;
-  box-shadow: 0 0 5px var(--color-primary-light);
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  border: none;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 10px;
-  transition: background-color 0.3s;
-}
-
-.btn-primary:hover {
-  background-color: var(--color-primary-dark);
-}
-
 .text-center a {
   color: var(--color-primary);
   text-decoration: none;
@@ -159,10 +132,6 @@ const login = async () => {
 .text-center a:hover {
   text-decoration: underline;
   color: var(--color-primary-dark);
-}
-
-img {
-  margin-bottom: 1rem;
 }
 
 @media (max-width: 480px) {

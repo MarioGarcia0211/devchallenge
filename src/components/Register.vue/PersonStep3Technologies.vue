@@ -212,17 +212,6 @@ const formularioValido = computed(() => {
 </script>
 
 <style scoped>
-.form-control:focus {
-  border-color: var(--color-primary);
-  outline: none;
-  box-shadow: 0 0 0 0.2rem var(--color-primary-light);
-}
-
-.badge.bg-primary {
-  background-color: var(--color-primary) !important;
-  color: white;
-}
-
 .dropdown-menu {
   max-width: 100%;
   overflow-x: auto;
@@ -231,36 +220,6 @@ const formularioValido = computed(() => {
 .dropdown-item {
   white-space: normal;
   word-break: break-word;
-}
-
-.form-check-input:checked {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-}
-
-.form-check-input:focus {
-  box-shadow: 0 0 0 0.2rem var(--color-primary-light);
-  border-color: var(--color-primary);
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  border: none;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 10px;
-  transition: background-color 0.3s;
-}
-
-.btn-primary:hover {
-  background-color: var(--color-primary-dark);
-}
-
-.btn-primary:disabled {
-  background-color: var(--color-primary) !important;
-  border: none;
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 
 @media (max-width: 576px) {

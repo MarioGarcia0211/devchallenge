@@ -258,7 +258,7 @@ async function validarYEnviar() {
 
 <style scoped>
 .dropdown .form-control {
-  height: 38px; /* Ajusta según tu diseño */
+  height: 45px;
   padding: 0.375rem 0.75rem;
   display: flex;
   align-items: center;
@@ -268,46 +268,5 @@ async function validarYEnviar() {
   font-size: 0.75rem;
   line-height: 1;
   white-space: nowrap;
-}
-
-.form-check-input:checked {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-}
-
-.badge.bg-primary {
-  background-color: var(--color-primary) !important;
-  color: white;
-}
-
-.form-check-input:focus {
-  box-shadow: 0 0 0 0.2rem var(--color-primary-light);
-  border-color: var(--color-primary);
-}
-
-.form-control:focus {
-  border-color: var(--color-primary);
-  outline: none;
-  box-shadow: 0 0 0 0.2rem var(--color-primary-light);
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  border: none;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 10px;
-  transition: background-color 0.3s;
-}
-
-.btn-primary:hover {
-  background-color: var(--color-primary-dark);
-}
-
-.btn-primary:disabled {
-  background-color: var(--color-primary) !important;
-  border: none;
-  opacity: 0.6;
-  cursor: not-allowed;
 }
 </style>

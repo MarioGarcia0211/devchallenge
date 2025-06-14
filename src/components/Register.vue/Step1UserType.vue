@@ -77,34 +77,3 @@ const emitirSeleccion = () => {
   });
 };
 </script>
-
-<style scoped>
-.form-check-input:checked {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-}
-
-.form-check-input:focus {
-  box-shadow: 0 0 0 0.2rem var(--color-primary-light);
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  border: none;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 10px;
-  transition: background-color 0.3s;
-}
-
-.btn-primary:hover {
-  background-color: var(--color-primary-dark);
-}
-
-.btn-primary:disabled {
-  background-color: var(--color-primary) !important;
-  border: none;
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-</style>
