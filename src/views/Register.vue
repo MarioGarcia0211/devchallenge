@@ -59,6 +59,12 @@
           @siguiente="siguientePaso"
           @anterior="pasoActual--"
         />
+        <CompanyStep4Contact
+          v-if="tipoUsuario === 'empresa' && pasoActual === 4"
+          v-model="datosEmpresa"
+          @enviar="registrarEmpresa"
+          @anterior="pasoActual--"
+        />
 
         <p class="mt-3 text-center">
           ¿Ya tienes una cuenta?
@@ -82,6 +88,7 @@ import PersonStep3Technologies from "../components/Register.vue/PersonStep3Techn
 import PersonStep4Contact from "../components/Register.vue/PersonStep4Contact.vue";
 import CompanyStep2CompanyData from "../components/Register.vue/CompanyStep2CompanyData.vue";
 import CompanyStep3Description from "../components/Register.vue/CompanyStep3Description.vue";
+import CompanyStep4Contact from "../components/Register.vue/CompanyStep4Contact.vue";
 
 const router = useRouter();
 const pasoActual = ref(1);
