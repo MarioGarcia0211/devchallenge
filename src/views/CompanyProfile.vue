@@ -1,6 +1,10 @@
 <template>
   <Navbar />
-  <div class="cont-fluid mt-3">Hola</div>
+  <div class="cont-fluid mt-3">
+    <ProfileHeader :perfil="empresa" tipo="empresa" />
+
+    <ProfileTabs :tabs="companyTabs" />
+  </div>
   <Footer />
 </template>
 
@@ -9,6 +13,8 @@ import { ref, onMounted } from "vue";
 import { obtenerDatosUsuario } from "../services/userServices";
 import Navbar from "../components/Navbar/Navbar.vue";
 import Footer from "../components/Footer/Footer.vue";
+import ProfileHeader from "../components/Profile/ProfileHeader.vue";
+import ProfileTabs from "../components/Profile/ProfileTabs.vue";
 
 const empresa = ref({
   tipoUsuario: "",
@@ -27,12 +33,30 @@ const empresa = ref({
   correo: "",
 });
 
+const companyTabs = [
+  {
+    label: "Perfil",
+    icon: "bi bi-person-check",
+    route: "/company-profile/profile",
+  },
+  {
+    label: "Retos",
+    icon: "bi bi-flag-fill",
+    route: "/company-profile/challenge",
+  },
+  {
+    label: "Vacantes",
+    icon: "bi bi-briefcase",
+    route: "/company-profile/vacant",
+  },
+  {
+    label: "Candidatos",
+    icon: "bi bi-people-fill",
+    route: "/company-profile/candidatos",
+  },
+];
+
 onMounted(async () => {
-  try {
-    empresa.value = await obtenerDatosUsuario();
-    console.log("Datos del empresa:", empresa.value);
-  } catch (error) {
-    console.error("Error cargando empresa:", error);
-  }
+  empresa.value = await obtenerDatosUsuario();
 });
 </script>

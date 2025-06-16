@@ -1,15 +1,21 @@
 <template>
   <Navbar />
-  <div class="cont-fluid mt-3">hola</div>
+  <div class="cont-fluid mt-3">
+    <ProfileHeader :perfil="persona" tipo="persona" />
+
+    <ProfileTabs :tabs="personaTabs" />
+  </div>
   <Footer />
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import { obtenerDatosUsuario } from "../services/userServices";
-
 import Navbar from "../components/Navbar/Navbar.vue";
 import Footer from "../components/Footer/Footer.vue";
+import ProfileHeader from "../components/Profile/ProfileHeader.vue";
+import ProfileTabs from "../components/Profile/ProfileTabs.vue";
+
 const persona = ref({
   tipoUsuario: "",
   nombres: "",
@@ -29,18 +35,31 @@ const persona = ref({
   correo: "",
   contrasena: "",
 });
-const loading = ref(true);
+
+const personaTabs = [
+  {
+    label: "Perfil",
+    icon: "bi bi-person-check",
+    route: "/user-profile/profile",
+  },
+  {
+    label: "Mis Retos",
+    icon: "bi bi-flag-fill",
+    route: "/user-profile/challenge",
+  },
+  {
+    label: "Mis Vacantes",
+    icon: "bi bi-briefcase",
+    route: "/user-profile/vacant",
+  },
+  {
+    label: "Conexiones",
+    icon: "bi bi-people-fill",
+    route: "/user-profile/conexiones",
+  },
+];
 
 onMounted(async () => {
-  try {
-    persona.value = await obtenerDatosUsuario();
-    //console.log("Datos del persona:", persona.value);
-  } catch (error) {
-    console.error("Error cargando persona:", error);
-  } finally {
-    loading.value = false;
-  }
+  persona.value = await obtenerDatosUsuario();
 });
 </script>
-
-<style scoped></style>
