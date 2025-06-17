@@ -26,13 +26,21 @@
           <!-- Correo -->
           <div class="mb-3">
             <label class="form-label">Correo electrónico</label>
-            <input type="email" class="form-control" v-model="correo" />
+            <input
+              type="email"
+              class="form-control"
+              v-model="correo"
+              :class="{ 'is-invalid': correoError }"
+            />
           </div>
 
           <!-- Contraseña -->
           <div class="mb-3">
             <label class="form-label">Contraseña</label>
-            <div class="input-group">
+            <div
+              class="input-group"
+              :class="{ 'is-invalid-group': claveError }"
+            >
               <input
                 :type="mostrarClave ? 'text' : 'password'"
                 class="form-control"
@@ -73,7 +81,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { iniciarSesion } from "../services/authServices";
 import { obtenerTipoUsuario } from "../services/userServices";
@@ -84,12 +92,45 @@ const clave = ref("");
 const router = useRouter();
 const toastRef = ref(null);
 const mostrarClave = ref(false);
+const correoError = ref("");
+const claveError = ref("");
 
 const login = async () => {
-  if (!correo.value || !clave.value) {
+  correoError.value = "";
+  claveError.value = "";
+
+  const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!correo.value && !clave.value) {
+    correoError.value = "Campos obligatorios";
+    claveError.value = "Campos obligatorios";
     toastRef.value?.mostrarToast("error", "Todos los campos son obligatorios");
     return;
   }
+
+  if (!correo.value.trim()) {
+    correoError.value = "Campo obligatorio";
+    toastRef.value?.mostrarToast("error", "El correo es obligatorio");
+    return;
+  }
+
+  if (!clave.value.trim()) {
+    claveError.value = "Campo obligatorio";
+    toastRef.value?.mostrarToast("error", "La contraseña es obligatoria");
+    return;
+  }
+
+  if (!correoRegex.test(correo.value)) {
+    correoError.value = "Correo electrónico inválido";
+    toastRef.value?.mostrarToast("error", correoError.value);
+    return;
+  }
+
+  // if (clave.value.length < 8) {
+  //   claveError.value = "La contraseña debe tener al menos 8 caracteres";
+  //   toastRef.value?.mostrarToast("error", claveError.value);
+  //   return;
+  // }
 
   try {
     const usuario = await iniciarSesion(correo.value, clave.value);
@@ -105,9 +146,16 @@ const login = async () => {
       console.log("tipo de usuario desconocido");
     }
   } catch (error) {
-    toastRef.value?.mostrarToast("error", error);
+    toastRef.value?.mostrarToast("error", error.message || error);
   }
 };
+
+watch(correo, () => {
+  if (correoError.value) correoError.value = "";
+});
+watch(clave, () => {
+  if (claveError.value) claveError.value = "";
+});
 </script>
 
 <style scoped>
@@ -178,6 +226,15 @@ const login = async () => {
 .text-center a:hover {
   text-decoration: underline;
   color: var(--color-primary-dark);
+}
+
+.input-group.is-invalid-group {
+  border: 1px solid #dc3545;
+  border-radius: 10px;
+}
+
+.input-group.is-invalid-group:focus-within {
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
 }
 
 @media (max-width: 480px) {
