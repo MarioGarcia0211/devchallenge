@@ -32,7 +32,23 @@
           <!-- Contraseña -->
           <div class="mb-3">
             <label class="form-label">Contraseña</label>
-            <input type="password" class="form-control" v-model="clave" />
+            <div class="input-group">
+              <input
+                :type="mostrarClave ? 'text' : 'password'"
+                class="form-control"
+                v-model="clave"
+              />
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                @click="mostrarClave = !mostrarClave"
+                :aria-label="
+                  mostrarClave ? 'Ocultar contraseña' : 'Mostrar contraseña'
+                "
+              >
+                <i :class="mostrarClave ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
           </div>
 
           <!-- Botón -->
@@ -67,6 +83,7 @@ const correo = ref("");
 const clave = ref("");
 const router = useRouter();
 const toastRef = ref(null);
+const mostrarClave = ref(false);
 
 const login = async () => {
   if (!correo.value || !clave.value) {
