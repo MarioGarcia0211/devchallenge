@@ -140,6 +140,35 @@ const login = async () => {
   color: var(--color-gray-dark);
 }
 
+.input-group {
+  border: 1px solid var(--color-gray);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.input-group .form-control {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.input-group .btn {
+  border: none;
+  background-color: transparent;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+}
+
+.input-group:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 5px var(--color-primary-light);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group .btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
 .text-center a {
   color: var(--color-primary);
   text-decoration: none;
