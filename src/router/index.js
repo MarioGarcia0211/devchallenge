@@ -9,6 +9,8 @@ import PersonProfileLayout from "../views/PersonProfileLayout.vue";
 import PersonProfile from "../components/Person/Profile/PersonProfile.vue";
 import CompanyProfileLayout from "../views/CompanyProfileLayout.vue";
 import CompanyProfile from "../components/Company/Profile/CompanyProfile.vue";
+import CompanyChallenge from "../components/Company/Challenge/CompanyChallenge.vue";
+import CompanyVancant from "../components/Company/Vacant/CompanyVacant.vue";
 
 // Definición de rutas
 const routes = [
@@ -38,6 +40,8 @@ const routes = [
     redirect: "/company-profile/profile", // Redirige a la subruta "profile"
     children: [
       { path: "profile", name: "", component: CompanyProfile, props: true },
+      { path: "challenge", name: "", component: CompanyChallenge },
+      { path: "vacant", name: "", component: CompanyVancant},
     ],
   }
 ];
