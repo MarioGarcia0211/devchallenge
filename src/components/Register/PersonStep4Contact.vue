@@ -248,7 +248,7 @@ async function validarYEnviar() {
 
   if (existe) {
     errores.correo = "Este correo ya está registrado.";
-    toastRef.value?.mostrarToast("error", error.correo);
+    toastRef.value?.mostrarToast("error", errores.correo);
     return;
   }
 
