@@ -1,0 +1,317 @@
+<template>
+  <div
+    v-if="visible"
+    class="modal fade show"
+    tabindex="-1"
+    style="display: block; background-color: rgba(0, 0, 0, 0.5)"
+    @click.self="cerrarModal"
+  >
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            {{ isEditing ? `Editar ${label}` : `Crear ${label}` }}
+          </h5>
+          <button type="button" class="btn-close" @click="cerrarModal" />
+        </div>
+
+        <div class="modal-body">
+          <!-- Nombre -->
+          <div class="mb-3">
+            <label class="form-label">Nombre del {{ label }}</label>
+            <input v-model="formData.nombre" type="text" class="form-control" />
+          </div>
+
+          <!-- Descripción -->
+          <div class="mb-3">
+            <label class="form-label">Descripción</label>
+            <textarea
+              v-model="formData.descripcion"
+              class="form-control"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <!-- Estado -->
+          <div class="mb-3">
+            <label class="form-label">Estado</label>
+            <select v-model="formData.estado" class="form-select">
+              <option value="">Seleccione...</option>
+              <option value="abierto">Abierto</option>
+              <option value="cerrado">Cerrado</option>
+            </select>
+          </div>
+
+          <!-- Tecnologías necesarias -->
+          <div class="mb-3">
+            <label class="form-label">Tecnologías necesarias</label>
+            <div class="dropdown w-100 position-relative">
+              <button
+                class="form-control text-start dropdown-toggle d-flex justify-content-between align-items-center text-truncate"
+                type="button"
+                data-bs-toggle="dropdown"
+                :title="formData.tecnologias.join(', ')"
+              >
+                <div class="d-flex flex-wrap gap-1">
+                  <span
+                    v-for="tec in formData.tecnologias"
+                    :key="tec"
+                    class="badge bg-primary text-light"
+                  >
+                    {{ tec }}
+                  </span>
+                  <span
+                    v-if="formData.tecnologias.length === 0"
+                    class="text-muted"
+                  >
+                    Selecciona tecnologías
+                  </span>
+                </div>
+              </button>
+
+              <ul
+                class="dropdown-menu w-100 shadow-sm"
+                style="max-height: 200px; overflow-y: auto"
+              >
+                <li v-for="tec in tecnologiasDisponibles" :key="tec">
+                  <div class="dropdown-item">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        :id="`tec-${tec}`"
+                        :value="tec"
+                        v-model="formData.tecnologias"
+                      />
+                      <label class="form-check-label" :for="`tec-${tec}`">
+                        {{ tec }}
+                      </label>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Enfoque de programación -->
+          <div class="mb-3">
+            <label class="form-label">Enfoque de programación</label>
+            <div class="dropdown w-100 position-relative">
+              <button
+                class="form-control text-start dropdown-toggle d-flex justify-content-between align-items-center text-truncate"
+                type="button"
+                data-bs-toggle="dropdown"
+                :title="formData.programacion.join(', ')"
+              >
+                <div class="d-flex flex-wrap gap-1">
+                  <span
+                    v-for="prog in formData.programacion"
+                    :key="prog"
+                    class="badge bg-primary text-light"
+                  >
+                    {{ prog }}
+                  </span>
+                  <span
+                    v-if="formData.programacion.length === 0"
+                    class="text-muted"
+                  >
+                    Selecciona enfoques
+                  </span>
+                </div>
+              </button>
+
+              <ul
+                class="dropdown-menu w-100 shadow-sm"
+                style="max-height: 200px; overflow-y: auto"
+              >
+                <li v-for="prog in programacionDisponible" :key="prog">
+                  <div class="dropdown-item">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        :id="`prog-${prog}`"
+                        :value="prog"
+                        v-model="formData.programacion"
+                      />
+                      <label class="form-check-label" :for="`prog-${prog}`">
+                        {{ prog }}
+                      </label>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Lenguajes aceptados -->
+          <div class="mb-3">
+            <label class="form-label">Lenguajes aceptados</label>
+            <div class="dropdown w-100 position-relative">
+              <button
+                class="form-control text-start dropdown-toggle d-flex justify-content-between align-items-center text-truncate"
+                type="button"
+                data-bs-toggle="dropdown"
+                :title="formData.lenguajes.join(', ')"
+              >
+                <div class="d-flex flex-wrap gap-1">
+                  <span
+                    v-for="lang in formData.lenguajes"
+                    :key="lang"
+                    class="badge bg-primary text-light"
+                  >
+                    {{ lang }}
+                  </span>
+                  <span
+                    v-if="formData.lenguajes.length === 0"
+                    class="text-muted"
+                  >
+                    Selecciona lenguajes
+                  </span>
+                </div>
+              </button>
+
+              <ul
+                class="dropdown-menu w-100 shadow-sm"
+                style="max-height: 200px; overflow-y: auto"
+              >
+                <li v-for="lang in lenguajesDisponibles" :key="lang">
+                  <div class="dropdown-item">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        :id="`lang-${lang}`"
+                        :value="lang"
+                        v-model="formData.lenguajes"
+                      />
+                      <label class="form-check-label" :for="`lang-${lang}`">
+                        {{ lang }}
+                      </label>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" @click="cerrarModal">
+            Cancelar
+          </button>
+          <button
+            class="btn btn-primary"
+            @click="guardar"
+            :disabled="!formData.nombre || !formData.estado"
+          >
+            {{ isEditing ? `Actualizar ${label}` : `Guardar ${label}` }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <Toast ref="toastRef" />
+</template>
+
+<script setup>
+import { ref, computed, watch } from "vue";
+import {
+  crearVacante,
+  actualizarVacante,
+} from "../../../services/vacantServices";
+import { crearReto, actualizarReto } from "../../../services/challengeServices";
+import Toast from "../../Toast/Toast.vue";
+
+const props = defineProps({
+  visible: Boolean,
+  empresa: Object,
+  tipo: String,
+  datos: Object,
+});
+const emit = defineEmits(["cerrar", "guardado"]);
+
+const label = computed(() => (props.tipo === "vacante" ? "vacante" : "reto"));
+const isEditing = computed(() => !!props.datos?.id);
+const toastRef = ref(null);
+
+const formData = ref({
+  nombre: "",
+  descripcion: "",
+  estado: "",
+  tecnologias: [],
+  programacion: [],
+  lenguajes: [],
+});
+
+watch(
+  () => props.visible,
+  (visible) => {
+    if (visible) {
+      const d = props.datos || {};
+      formData.value = {
+        nombre: d.nombre || "",
+        descripcion: d.descripcion || "",
+        estado: d.estado || "",
+        tecnologias: [...(d.tecnologias || [])],
+        programacion: [...(d.programacion || [])],
+        lenguajes: [...(d.lenguajes || [])],
+      };
+    }
+  },
+  { immediate: true }
+);
+
+const tecnologiasDisponibles = [
+  "React", "Vue.js", "Angular", "Marketing Digital", "Soporte", "Svelte", "Ember.js", "Backbone.js", 
+  "Django", "Flask", "Ruby on Rails", "Spring", "Laravel", "ASP.NET", "Express.js", "NestJS",
+  "Google Cloud", "AWS", "Azure", "Firebase", "MongoDB", "MySQL", "PostgreSQL", "SQLite", "Redis", 
+  "DynamoDB",
+];
+
+const programacionDisponible = [
+  "Frontend", "Backend", "Fullstack", "Mobile", "Desktop", "Web", "API", "Microservicios", "Monolítico", 
+  "Serverless", "Cloud", "On-premise",
+];
+
+const lenguajesDisponibles = [
+  "JavaScript", "TypeScript", "Python", "Java", "C#", "PHP", "Ruby", "Go", "Swift", "Kotlin", "Rust", 
+  "Scala", "Perl", "R", "Haskell", "Lua", "Dart", "Objective-C", "Clojure", "F#", "Erlang", "Julia", 
+  "COBOL", "Fortran", "Ada", "Lisp", "Scheme", "Prolog", "Smalltalk", "Pascal", "Basic", "Assembly", 
+  "C", "C++",
+];
+
+const cerrarModal = () => emit("cerrar");
+
+const guardar = async () => {
+  const payload = {
+    ...formData.value,
+    idUsuarioEmpresa: props.empresa?.uid || null,
+  };
+
+  try {
+    if (props.tipo === "vacante") {
+      if (isEditing.value) {
+        await actualizarVacante(props.datos.id, payload);
+      } else {
+        const id = await crearVacante(payload);
+        payload.id = id;
+      }
+    } else {
+      if (isEditing.value) {
+        await actualizarReto(props.datos.id, payload);
+      } else {
+        const id = await crearReto(payload);
+        payload.id = id;
+      }
+    }
+    toastRef.value?.mostrarToast("success", `${label.value} guardado correctamente`);
+    emit("guardado", payload);
+    cerrarModal();
+  } catch (err) {
+    console.error(err);
+  }
+};
+</script>

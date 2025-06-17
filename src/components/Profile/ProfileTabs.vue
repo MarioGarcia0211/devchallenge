@@ -39,14 +39,20 @@ defineProps({
 }
 
 .user-tabs .nav-link.active {
-  background-color: #8b5cf6;
+  background-color: var(--color-primary);
   color: white;
   font-weight: 600;
-  box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 8px var(--color-primary-light);
 }
 
 .user-tabs .nav-link:hover {
-  background-color: #ede9fe;
-  color: #6b21a8;
+  background-color: white;
+  color: var(--color-primary-dark);
+}
+
+.user-tabs .nav-link.active:hover {
+  background-color: var(--color-primary-dark);
+  color: white;
+  font-weight: 600;
 }
 </style>
