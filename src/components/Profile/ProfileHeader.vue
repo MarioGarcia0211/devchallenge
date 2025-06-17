@@ -160,12 +160,4 @@ const subtitulo = computed(() => {
   color: white;
   text-decoration: none;
 }
-
-.custom-badge {
-  background-color: #ede9fe;
-  color: var(--color-primary);
-  font-weight: 500;
-  padding: 0.4em 0.6em;
-  border-radius: 1rem;
-}
 </style>

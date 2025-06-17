@@ -1,9 +1,16 @@
 <template>
   <Navbar />
   <div class="cont-fluid mt-3">
-    <ProfileHeader :perfil="persona" tipo="persona" />
+    <!-- Header -->
+    <ProfileHeader :perfil="empresa" tipo="empresa" />
 
-    <ProfileTabs :tabs="personaTabs" />
+    <!-- Tabs -->
+    <ProfileTabs :tabs="companyTabs" />
+
+    <!-- Contenido dinámico -->
+    <div class="mt-4">
+      <router-view :empresa="empresa" />
+    </div>
   </div>
   <Footer />
 </template>
@@ -16,50 +23,47 @@ import Footer from "../components/Footer/Footer.vue";
 import ProfileHeader from "../components/Profile/ProfileHeader.vue";
 import ProfileTabs from "../components/Profile/ProfileTabs.vue";
 
-const persona = ref({
+const empresa = ref({
   tipoUsuario: "",
-  nombres: "",
-  apellidos: "",
-  tipoDocumento: "",
-  numeroDocumento: "",
-  fotoPerfil: "",
+  tipoEmpresa: "",
+  nombreEmpresa: "",
+  nit: "",
   ciudad: "",
   pais: "",
+  industria: "",
+  otraIndustria: "",
+  logo: "",
+  paginaWeb: "",
   descripcion: "",
-  tecnologias: [],
-  habilidades: [],
-  recursos: [],
-  preferenciasTrabajo: [],
-  hojaDeVida: "",
+  contacto: "",
   whatsapp: "",
   correo: "",
-  contrasena: "",
 });
 
-const personaTabs = [
+const companyTabs = [
   {
     label: "Perfil",
     icon: "bi bi-person-check",
-    route: "/user-profile/profile",
+    route: "/company-profile/profile",
   },
   {
-    label: "Mis Retos",
+    label: "Retos",
     icon: "bi bi-flag-fill",
-    route: "/user-profile/challenge",
+    route: "/company-profile/challenge",
   },
   {
-    label: "Mis Vacantes",
+    label: "Vacantes",
     icon: "bi bi-briefcase",
-    route: "/user-profile/vacant",
+    route: "/company-profile/vacant",
   },
   {
-    label: "Conexiones",
+    label: "Candidatos",
     icon: "bi bi-people-fill",
-    route: "/user-profile/conexiones",
+    route: "/company-profile/candidatos",
   },
 ];
 
 onMounted(async () => {
-  persona.value = await obtenerDatosUsuario();
+  empresa.value = await obtenerDatosUsuario();
 });
 </script>
