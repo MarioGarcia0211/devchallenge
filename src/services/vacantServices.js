@@ -17,7 +17,8 @@ export const crearVacante = async (vacante) => {
   try {
     const vacanteConFecha = {
       ...vacante,
-      fechaRegistro: serverTimestamp(),
+      fechaCreacion: serverTimestamp(),
+      fechaActualizacion: serverTimestamp()
     };
 
     const docRef = await addDoc(collection(db, "vacantes"), vacanteConFecha);
@@ -34,7 +35,7 @@ export const obtenerVacantesPorEmpresa = async (empresa) => {
     const q = query(
       collection(db, "vacantes"),
       where("idUsuarioEmpresa", "==", empresa),
-      orderBy("fechaRegistro", "desc")
+      orderBy("fechaCreacion", "desc")
     );
 
     const querySnapshot = await getDocs(q);

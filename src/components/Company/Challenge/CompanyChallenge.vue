@@ -104,6 +104,7 @@ const cargarRetos = async () => {
   if (props.empresa?.uid) {
     try {
       retos.value = await obtenerRetosPorEmpresa(props.empresa.uid);
+      console.log(retos.value);
     } catch (error) {
       console.error("Error al cargar retos:", error);
     } finally {

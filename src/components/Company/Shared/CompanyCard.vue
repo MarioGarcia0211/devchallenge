@@ -129,7 +129,7 @@
       <hr />
 
       <div class="mt-auto text-start">
-        Fecha de creación: {{ formatearFecha(item.fechaRegistro) }}
+        Fecha de creación: {{ formatearFecha(item.fechaCreacion) }}
       </div>
     </div>
   </div>

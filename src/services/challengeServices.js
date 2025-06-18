@@ -19,7 +19,8 @@ export const crearReto = async (reto) => {
   try {
     const retoConFecha = {
       ...reto,
-      fechaRegistro: serverTimestamp(),
+      fechaCreacion: serverTimestamp(),
+      fechaActualizacion: serverTimestamp()
     };
 
     const docRef = await addDoc(collection(db, "retos"), retoConFecha);
@@ -36,7 +37,7 @@ export const obtenerRetosPorEmpresa = async (empresa) => {
     const q = query(
       collection(db, "retos"),
       where("idUsuarioEmpresa", "==", empresa),
-      orderBy("fechaRegistro", "desc")
+      orderBy("fechaCreacion", "desc")
     );
 
     const querySnapshot = await getDocs(q);
@@ -83,7 +84,7 @@ export const obtenerTodosLosRetos = async () => {
   try {
     const q = query(
       collection(db, "retos"),
-      orderBy("fechaRegistro", "desc") // ordenados del más reciente al más antiguo
+      orderBy("fechaCreacion", "desc") // ordenados del más reciente al más antiguo
     );
 
     const querySnapshot = await getDocs(q);
@@ -102,7 +103,7 @@ export const obtenerTodosLosRetos = async () => {
 
 export const obtenerRetosConEmpresa = async () => {
   try {
-    const q = query(collection(db, "retos"), orderBy("fechaRegistro", "desc"));
+    const q = query(collection(db, "retos"), orderBy("fechaCreacion", "desc"));
     const querySnapshot = await getDocs(q);
 
     const retos = [];
@@ -149,7 +150,8 @@ export const registrarParticipacion = async (idReto, idPersona) => {
       idReto,
       idPersona,
       estado: "pendiente",
-      fechaRegistro: serverTimestamp(),
+      fechaCreacion: serverTimestamp(),
+      fechaActualizacion: serverTimestamp()
     };
 
     // Subcolección dentro del reto
