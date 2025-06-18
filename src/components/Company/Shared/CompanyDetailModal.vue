@@ -1,20 +1,26 @@
 <template>
   <div
     v-if="visible && item"
-    class="modal fade show"
+    class="modal d-block fade show"
     tabindex="-1"
-    style="display: block; background-color: rgba(0, 0, 0, 0.5)"
+    role="dialog"
+    aria-modal="true"
     @click.self="$emit('cerrar')"
+    style="background-color: rgba(0, 0, 0, 0.5)"
   >
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div
+      class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+    >
       <div class="modal-content">
+        <!-- Encabezado -->
         <div class="modal-header">
           <h5 class="modal-title">
-            Detalles del {{ tipo === 'vacante' ? 'vacante' : 'reto' }}
+            Detalles del {{ tipo === "vacante" ? "vacante" : "reto" }}
           </h5>
           <button type="button" class="btn-close" @click="$emit('cerrar')" />
         </div>
 
+        <!-- Cuerpo -->
         <div class="modal-body">
           <div class="mb-3">
             <h4>{{ item.nombre || item.nombreVacante }}</h4>
@@ -22,7 +28,7 @@
           </div>
 
           <div class="mb-3">
-            <strong>Estado:</strong>
+            <strong>Estado: </strong>
             <span
               class="badge"
               :class="item.estado === 'abierto' ? 'bg-success' : 'bg-danger'"
@@ -41,7 +47,9 @@
               >
                 {{ tec }}
               </span>
-              <span v-if="!item.tecnologias?.length" class="text-muted">No definido</span>
+              <span v-if="!item.tecnologias?.length" class="text-muted"
+                >No definido</span
+              >
             </div>
           </div>
 
@@ -55,7 +63,9 @@
               >
                 {{ prog }}
               </span>
-              <span v-if="!item.programacion?.length" class="text-muted">No definido</span>
+              <span v-if="!item.programacion?.length" class="text-muted"
+                >No definido</span
+              >
             </div>
           </div>
 
@@ -69,19 +79,24 @@
               >
                 {{ lang }}
               </span>
-              <span v-if="!item.lenguajes?.length" class="text-muted">No definido</span>
+              <span v-if="!item.lenguajes?.length" class="text-muted"
+                >No definido</span
+              >
             </div>
           </div>
 
           <div class="mt-4 text-muted">
             <i class="bi bi-calendar-event"></i>
             Fecha de creación:
-            {{ formatearFecha(item.fechaRegistro) }}
+            {{ formatearFecha(item.fechaCreacion) }}
           </div>
         </div>
 
+        <!-- Pie -->
         <div class="modal-footer">
-          <button class="btn btn-secondary" @click="$emit('cerrar')">Cerrar</button>
+          <button class="btn btn-secondary" @click="$emit('cerrar')">
+            Cerrar
+          </button>
         </div>
       </div>
     </div>

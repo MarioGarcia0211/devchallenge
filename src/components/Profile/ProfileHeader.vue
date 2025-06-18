@@ -18,7 +18,9 @@
         </div>
 
         <!-- Contenido dinámico -->
-        <div class="col-12 col-md-10">
+        <div
+          class="col-12 col-md-10 d-flex flex-column align-items-center align-items-md-start text-center text-md-start mx-auto"
+        >
           <h4 class="fs-4 mb-1">{{ titulo }}</h4>
           <p class="text-muted mb-2">{{ subtitulo }}</p>
 
