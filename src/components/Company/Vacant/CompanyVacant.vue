@@ -24,7 +24,7 @@
   <!-- Lista de vacantes -->
   <div v-else-if="vacantes.length" class="row">
     <div
-      class="col-12 col-sm-6 col-lg-4 mb-4 d-flex"
+      class="col-12 col-sm-12 col-md-6 col-lg-4 mb-4"
       v-for="vacante in vacantes"
       :key="vacante.id"
     >
