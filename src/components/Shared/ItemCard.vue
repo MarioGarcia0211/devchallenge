@@ -40,7 +40,7 @@
 
       <!-- Descripción -->
       <div class="mb-2">
-        <p class="text-truncated descripcion-truncada mb-1">
+        <p class="text-truncated descripcion-truncada">
           {{ item.descripcion }}
         </p>
         <button class="btn-ver-mas">Ver más</button>
@@ -126,7 +126,8 @@
 <script setup>
 import { ref, computed, watch } from "vue";
 import ItemModal from "./ItemModal.vue";
-import { verificarRegistro } from "../../services/challengeServices";
+import { verificarRegistroReto } from "../../services/challengeServices";
+import { verificarRegistroVacante } from "../../services/vacantServices";
 
 const props = defineProps({
   item: Object,
@@ -161,11 +162,17 @@ const nombreItem = computed(() =>
 async function chequearParticipacion() {
   if (props.item?.id && props.persona?.uid) {
     try {
-      estaParticipando.value = await verificarRegistro(
-        props.item.id,
-        props.persona.uid,
-        props.tipo
-      );
+      if (props.tipo === "reto") {
+        estaParticipando.value = await verificarRegistroReto(
+          props.item.id,
+          props.persona.uid
+        );
+      } else {
+        estaParticipando.value = await verificarRegistroVacante(
+          props.item.id,
+          props.persona.uid
+        );
+      }
     } catch (error) {
       console.error("Error al verificar participación:", error);
       estaParticipando.value = false;
@@ -183,35 +190,49 @@ watch(() => [props.item, props.persona], chequearParticipacion, {
 <style scoped>
 .img-thumbnail {
   border: 2px solid var(--color-primary);
-  border-radius: 12px;
+  border-radius: 1rem;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 h5 {
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
 }
 
 .soft-badge {
   background-color: var(--color-primary-light);
   color: var(--color-primary-dark);
-  padding: 0.4em 0.7em;
+  padding: 0.4em 0.75em;
   font-size: 0.75rem;
-  border-radius: 12px;
+  border-radius: 999px;
   font-weight: 500;
+  margin-bottom: 4px;
   display: inline-block;
+  transition: all 0.2s ease-in-out;
+}
+
+.soft-badge:hover {
+  background-color: var(--color-primary);
+  color: white;
 }
 
 .extra-badge {
   background-color: var(--color-gray-light);
   color: var(--color-primary-dark);
   font-weight: bold;
+  border-radius: 999px;
 }
 
 .badge {
-  padding: 0.35rem 0.6rem;
-  border-radius: 1rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 500;
+  text-transform: capitalize;
 }
 
 .bg-success {
@@ -224,9 +245,19 @@ h5 {
   color: white;
 }
 
+.bg-primary {
+  background-color: var(--color-primary) !important;
+  color: white;
+}
+
 .descripcion-truncada {
   min-height: 72px;
+  max-height: 4.5em;
   overflow: hidden;
+  position: relative;
+  font-size: 0.92rem;
+  color: var(--color-gray-dark);
+  line-height: 1.5em;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -238,24 +269,15 @@ h5 {
   border: none;
   color: var(--color-primary);
   padding: 0;
-  margin-top: 4px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   cursor: pointer;
   font-weight: 500;
-  transition: color 0.2s, transform 0.1s;
+  transition: color 0.2s ease;
 }
 
 .btn-ver-mas:hover {
   color: var(--color-primary-dark);
   text-decoration: underline;
-}
-
-.btn-ver-mas:active {
-  transform: scale(0.95);
-}
-
-.btn-ver-mas:active {
-  transform: scale(0.95);
 }
 
 i.bi {
@@ -265,15 +287,21 @@ i.bi {
 
 .card {
   cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+  background-color: white;
 }
 
 .card:hover {
-  background-color: #f9fafb;
-  border: 1px solid #d1d5db;
+  background-color: #fafafa;
+  border-color: var(--color-primary-light);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
 }
 
 .card:active {
-  transform: scale(0.97);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  transform: scale(0.98);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 </style>

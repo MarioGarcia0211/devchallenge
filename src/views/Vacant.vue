@@ -8,11 +8,11 @@
     <h3 class="mt-3">Vacantes disponibles</h3>
 
     <div
-      class="alert alert-info d-flex align-items-start rounded-3 p-3"
+      class="alert alert-danger d-flex align-items-start rounded-3 p-3"
       role="alert"
     >
       <div>
-        <h5 class="fw-semibold mb-1 text-info">¿Qué son las vacantes?</h5>
+        <h5 class="fw-semibold mb-1 text-danger">¿Qué son las vacantes?</h5>
         <p class="mb-0 text-secondary">
           Los vacantes son desafíos propuestos por empresas para que los
           estudiantes puedan demostrar sus habilidades en tecnologías,
@@ -33,11 +33,10 @@
     <div v-else>
       <div v-if="vacantes.length > 0" class="row">
         <div
-          class="col-12 col-sm-6 col-lg-4 mb-4"
+          class="col-12 col-sm-12 col-md-6 col-lg-4 mb-4"
           v-for="vacante in vacantes"
           :key="vacante.id"
         >
-          <ItemCard :item="vacante" tipo="vacante" :persona="persona" />
           <ItemCard :item="vacante" tipo="vacante" :persona="persona" />
         </div>
       </div>
@@ -51,7 +50,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { obtenerDatosUsuario } from "../services/userServices";
-import { obtenerRetosConEmpresa } from "../services/challengeServices";
+import { obtenerVacanteConEmpresa } from "../services/vacantServices";
 
 import Navbar from "../components/Navbar/Navbar.vue";
 import Footer from "../components/Footer/Footer.vue";
@@ -71,7 +70,7 @@ onMounted(async () => {
     persona.value = await obtenerDatosUsuario();
     console.log("Datos del usuario:", persona.value);
 
-    vacantes.value = await obtenerRetosConEmpresa();
+    vacantes.value = await obtenerVacanteConEmpresa();
     console.log("vacantes disponibles:", vacantes.value);
   } catch (error) {
     console.error("Error al cargar datos:", error);

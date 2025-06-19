@@ -12,6 +12,7 @@ import CompanyProfile from "../components/Company/Profile/CompanyProfile.vue";
 import CompanyChallenge from "../components/Company/Challenge/CompanyChallenge.vue";
 import CompanyVancant from "../components/Company/Vacant/CompanyVacant.vue";
 import Challenge from "../views/Challenge.vue";
+import Vacant from "../views/Vacant.vue";
 
 // Definición de rutas
 const routes = [
@@ -51,6 +52,12 @@ const routes = [
     name: "",
     component: Challenge,
   }, 
+  // Vacantes
+  {
+    path: "/vacant",
+    name: "",
+    component: Vacant,
+  },
 ];
 
 // Crear el router

@@ -144,7 +144,7 @@ export const obtenerRetosConEmpresa = async () => {
   }
 };
 
-export const registrarParticipacion = async (idReto, idPersona) => {
+export const registrarParticipacionReto = async (idReto, idPersona) => {
   try {
     const participacionData = {
       idReto,
@@ -165,7 +165,7 @@ export const registrarParticipacion = async (idReto, idPersona) => {
   }
 };
 
-export const verificarRegistro = async (idReto, idPersona) => {
+export const verificarRegistroReto = async (idReto, idPersona) => {
   try {
     const participantesRef = collection(db, `retos/${idReto}/postulacionReto`);
     const q = query(participantesRef, where("idPersona", "==", idPersona));
