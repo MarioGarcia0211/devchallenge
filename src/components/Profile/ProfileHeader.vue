@@ -135,29 +135,28 @@ const subtitulo = computed(() => {
 
 <style scoped>
 .card-header-gradient {
-  height: 40px;
-  margin: 0 -1.5rem;
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-  background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
+  height: 50px;
+  margin: -1.5rem -1.5rem 0 -1.5rem;
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+  background: linear-gradient(90deg, #8b5cf6, #3b82f6, #06b6d4);
+  box-shadow: inset 0 -1px 2px rgba(255, 255, 255, 0.2);
 }
 
 .avatar-border {
-  width: 140px;
-  height: 140px;
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
-  padding: 4px;
-  background: conic-gradient(
-    from 180deg,
+  padding: 3px;
+  background: linear-gradient(
+    135deg,
     var(--color-primary),
-    var(--color-primary-dark),
-    var(--color-primary),
-    var(--color-primary-light)
+    var(--color-primary-dark)
   );
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: spinBorder 4s linear infinite;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
   position: relative;
 }
 
@@ -170,7 +169,7 @@ const subtitulo = computed(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease;
+  transition: transform 0.25s ease;
 }
 
 .avatar-border:hover .avatar-inner {
@@ -181,48 +180,96 @@ const subtitulo = computed(() => {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 50%;
 }
 
-/* Botón flotante para editar imagen */
+/* Botón de edición */
 .edit-icon-btn {
   position: absolute;
-  bottom: -4px;
-  right: -4px;
+  bottom: 0;
+  right: 0;
   background-color: white;
   border: 2px solid var(--color-primary);
-  color: var(--color-primary);
+  color: var(--color-primary-dark);
   border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s, transform 0.2s;
-  z-index: 2;
+  transition: all 0.2s ease;
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .edit-icon-btn:hover {
   background-color: var(--color-primary);
   color: white;
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
+/* Íconos generales */
 .icon {
-  color: var(--color-primary);
+  color: var(--color-primary-dark);
   font-size: 1.1rem;
 }
 
+.custom-badge {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  padding: 0.35em 0.7em;
+  font-size: 0.75rem;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+h4 {
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.text-muted {
+  font-size: 0.9rem;
+  color: var(--color-gray-dark) !important;
+}
+
+/* Botones personalizados */
 .custom-btn {
   background-color: white;
   color: var(--color-primary);
   border: 1.5px solid var(--color-primary);
   transition: all 0.3s ease;
+  font-weight: 500;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
 }
 
 .custom-btn:hover {
   background-color: var(--color-primary);
   color: white;
   text-decoration: none;
+}
+
+/* Responsive mejoras */
+@media (max-width: 576px) {
+  .avatar-border {
+    width: 100px;
+    height: 100px;
+  }
+
+  .edit-icon-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.85rem;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+  }
+
+  .custom-btn {
+    width: 100%;
+  }
 }
 </style>

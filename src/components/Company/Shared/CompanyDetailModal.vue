@@ -1,96 +1,100 @@
 <template>
   <div
     v-if="visible && item"
-    class="modal d-block fade show"
+    class="modal fade show"
     tabindex="-1"
-    role="dialog"
-    aria-modal="true"
-    style="background-color: rgba(0, 0, 0, 0.5)"
+    style="display: block; background-color: rgba(0, 0, 0, 0.5)"
   >
-    <div
-      class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
-    >
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
-        <!-- Encabezado -->
-        <div class="modal-header">
-          <h5 class="modal-title">
-            Detalles del {{ tipo === "vacante" ? "vacante" : "reto" }}
-          </h5>
-          <button type="button" class="btn-close" @click="$emit('cerrar')" />
+        <!-- Header -->
+        <div class="modal-header align-items-start flex-column border-0 pb-0">
+          <div class="d-flex align-items-center w-100">
+            <img
+              :src="empresa?.logo"
+              alt="Logo empresa"
+              class="img-thumbnail me-3"
+              style="width: 80px; height: 80px; object-fit: cover"
+            />
+            <div>
+              <h5 class="modal-title mb-1 fw-bold">
+                {{ item.nombreReto || item.nombreVacante || "Sin título" }}
+              </h5>
+
+              <div class="mt-1">
+                <span class="text-muted me-1">Estado:</span>
+                <span
+                  class="badge"
+                  :class="{
+                    'bg-success': item.estado?.toLowerCase() === 'abierto',
+                    'bg-danger': item.estado?.toLowerCase() === 'cerrado',
+                    'bg-secondary':
+                      item.estado?.toLowerCase() !== 'abierto' &&
+                      item.estado?.toLowerCase() !== 'cerrado',
+                  }"
+                >
+                  {{ item.estado || "No definido" }}
+                </span>
+              </div>
+
+              <small class="text-muted">
+                Publicado el {{ formatearFecha(item.fechaCreacion) }}
+              </small>
+            </div>
+          </div>
+          <br />
         </div>
 
-        <!-- Cuerpo -->
+        <!-- Body -->
         <div class="modal-body">
-          <div class="mb-3">
-            <h4>{{ item.nombre || item.nombreVacante }}</h4>
-            <p class="text-muted">{{ item.descripcion }}</p>
-          </div>
+          <!-- Contenido -->
+          <p><strong>Descripción:</strong></p>
+          <div>{{ item.descripcion || "Sin descripción disponible." }}</div>
 
-          <div class="mb-3">
-            <strong>Estado: </strong>
+          <p class="mt-3"><strong>Lenguajes:</strong></p>
+          <div>
             <span
-              class="badge"
-              :class="item.estado === 'abierto' ? 'bg-success' : 'bg-danger'"
+              v-for="(lang, i) in item.lenguajes"
+              :key="'lang-' + i"
+              class="badge me-1 soft-badge"
             >
-              {{ item.estado }}
+              {{ lang }}
             </span>
+            <span v-if="!item.lenguajes?.length" class="text-muted"
+              >No definido</span
+            >
           </div>
 
-          <div class="mb-3">
-            <strong>Tecnologías:</strong>
-            <div class="d-flex flex-wrap gap-2 mt-1">
-              <span
-                v-for="tec in item.tecnologias"
-                :key="tec"
-                class="badge bg-primary text-light"
-              >
-                {{ tec }}
-              </span>
-              <span v-if="!item.tecnologias?.length" class="text-muted"
-                >No definido</span
-              >
-            </div>
+          <p class="mt-3"><strong>Tecnologías:</strong></p>
+          <div>
+            <span
+              v-for="(tec, i) in item.tecnologias"
+              :key="'tec-' + i"
+              class="badge me-1 soft-badge"
+            >
+              {{ tec }}
+            </span>
+            <span v-if="!item.tecnologias?.length" class="text-muted"
+              >No definido</span
+            >
           </div>
 
-          <div class="mb-3">
-            <strong>Enfoque de programación:</strong>
-            <div class="d-flex flex-wrap gap-2 mt-1">
-              <span
-                v-for="prog in item.programacion"
-                :key="prog"
-                class="badge bg-primary text-light"
-              >
-                {{ prog }}
-              </span>
-              <span v-if="!item.programacion?.length" class="text-muted"
-                >No definido</span
-              >
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <strong>Lenguajes aceptados:</strong>
-            <div class="d-flex flex-wrap gap-2 mt-1">
-              <span
-                v-for="lang in item.lenguajes"
-                :key="lang"
-                class="badge bg-primary text-light"
-              >
-                {{ lang }}
-              </span>
-              <span v-if="!item.lenguajes?.length" class="text-muted"
-                >No definido</span
-              >
-            </div>
-          </div>
-
-          <div class="mt-4 text-muted">
-            Fecha de creación:
-            {{ formatearFecha(item.fechaCreacion) }}
+          <p class="mt-3"><strong>Programación:</strong></p>
+          <div>
+            <span
+              v-for="(prog, i) in item.programacion"
+              :key="'prog-' + i"
+              class="badge me-1 soft-badge"
+            >
+              {{ prog }}
+            </span>
+            <span v-if="!item.programacion?.length" class="text-muted"
+              >No definido</span
+            >
           </div>
         </div>
 
-        <!-- Pie -->
+        <!-- Footer -->
         <div class="modal-footer">
           <button class="btn btn-secondary" @click="$emit('cerrar')">
             Cerrar
@@ -102,11 +106,15 @@
 </template>
 
 <script setup>
-defineProps({
+import { ref } from "vue";
+
+const props = defineProps({
   visible: Boolean,
   item: Object,
-  tipo: String,
+  empresa: Object,
 });
+
+const tabActivo = ref("detalle");
 
 const formatearFecha = (timestamp) => {
   if (!timestamp?.toDate) return "Fecha no válida";
@@ -123,69 +131,113 @@ const formatearFecha = (timestamp) => {
 </script>
 
 <style scoped>
-.modal-content {
+.img-thumbnail {
+  border: 2px solid var(--color-primary);
   border-radius: 16px;
-  background: var(--color-white);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-  border: none;
-  overflow: hidden;
-  animation: fadeInUp 0.3s ease-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.modal-header {
-  background: linear-gradient(
-    90deg,
-    var(--color-primary) 0%,
-    var(--color-primary-dark) 100%
-  );
-  color: var(--color-white);
-  border-bottom: 3px solid var(--color-primary-light);
-}
-
-.modal-title {
-  font-size: 1.5rem;
+.soft-badge {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  padding: 0.4em 0.75em;
+  font-size: 0.75rem;
+  border-radius: 999px;
   font-weight: 600;
+  margin-bottom: 4px;
+  display: inline-block;
+  transition: background-color 0.2s ease;
 }
 
-.btn-close {
-  filter: invert(1);
-}
-
-.modal-body {
-  background-color: var(--color-gray-light);
-  padding: 1.5rem;
-}
-
-.modal-footer {
-  background-color: var(--color-gray-light);
-  border-top: 1px solid var(--color-gray);
+.soft-badge:hover {
+  background-color: var(--color-primary);
+  color: white;
 }
 
 .badge {
   padding: 0.4rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
   font-weight: 500;
   text-transform: capitalize;
 }
 
-.bg-primary {
-  background-color: var(--color-primary) !important;
-}
-
 .bg-success {
   background-color: var(--color-success) !important;
+  color: white;
 }
 
 .bg-danger {
   background-color: var(--color-danger) !important;
+  color: white;
 }
 
-.text-light {
-  color: var(--color-white) !important;
+.bg-secondary {
+  background-color: var(--color-gray) !important;
+  color: var(--color-black);
 }
 
-.text-muted {
-  color: var(--color-gray-dark) !important;
+.nav-pills .nav-link {
+  background-color: var(--color-gray-light);
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.6rem 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+.nav-pills .nav-link.active {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.modal-content {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 1.25rem 1.5rem;
+  background-color: var(--color-gray-light);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--color-gray-dark);
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  background-color: var(--color-gray-light);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  border-top: none;
+}
+
+.btn {
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-secondary {
+  background-color: var(--color-gray);
+  border-color: var(--color-gray-dark);
+  color: var(--color-black);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-gray-dark);
+  color: white;
 }
 </style>

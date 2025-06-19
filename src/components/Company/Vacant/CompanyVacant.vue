@@ -40,6 +40,7 @@
       <CompanyDetailModal
         :visible="mostrarDetalle"
         :item="itemSeleccionado"
+        :empresa="empresa"
         tipo="vacante"
         @cerrar="mostrarDetalle = false"
       />

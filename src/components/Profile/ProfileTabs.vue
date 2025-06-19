@@ -46,7 +46,7 @@ defineProps({
 }
 
 .user-tabs .nav-link:hover {
-  background-color: white;
+  background-color: var(--color-primary-light);
   color: var(--color-primary-dark);
 }
 

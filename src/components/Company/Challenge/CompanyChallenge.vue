@@ -49,6 +49,7 @@
   <CompanyDetailModal
     :visible="mostrarDetalle"
     :item="itemSeleccionado"
+    :empresa="empresa"
     tipo="reto"
     @cerrar="mostrarDetalle = false"
   />

@@ -47,21 +47,49 @@
           <!-- Empresa: sitio web -->
           <template v-else>
             <p class="mb-2">
-              <!-- <i class="bi bi-globe2 me-2 icon"></i> -->
-              <strong>Sitio web:</strong>
-              {{ perfil.paginaWeb || "No disponible" }}
+              <strong>Sitio web: </strong>
+              <a
+                v-if="perfil.paginaWeb"
+                :href="
+                  perfil.paginaWeb.startsWith('http')
+                    ? perfil.paginaWeb
+                    : 'https://' + perfil.paginaWeb
+                "
+                class="custom-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ perfil.paginaWeb }}
+              </a>
+              <span v-else>No disponible</span>
             </p>
           </template>
 
           <!-- Contacto -->
           <h6 class="section-title mt-4">CONTACTOS</h6>
           <p class="mb-2">
-            <!-- <i class="bi bi-telephone-fill me-2 icon"></i> -->
-            <strong>Teléfono:</strong> {{ perfil.whatsapp || "No disponible" }}
+            <strong>Teléfono: </strong>
+            <a
+              v-if="perfil.whatsapp"
+              :href="'https://wa.me/' + perfil.whatsapp"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="custom-link"
+            >
+              {{ perfil.whatsapp }}
+            </a>
+            <span v-else>No disponible</span>
           </p>
           <p class="mb-0">
-            <!-- <i class="bi bi-envelope-fill me-2 icon"></i> -->
-            <strong>Correo:</strong> {{ perfil.correo || "No disponible" }}
+            <strong>Correo: </strong>
+            <a
+              v-if="perfil.correo"
+              :href="'mailto:' + perfil.correo"
+              class="custom-link"
+            >
+              {{ perfil.correo }}
+            </a>
+            <span v-else>No disponible</span>
           </p>
         </div>
       </div>
@@ -87,18 +115,54 @@ defineProps({
 </script>
 
 <style scoped>
-/* strong {
-  color: #8b5cf6;
-} */
+.custom-card {
+  border: 1px solid var(--color-gray-light);
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease;
+}
 .section-title {
   font-size: 0.75rem;
-  font-weight: 600;
-  color: #9ca3af;
+  font-weight: 700;
+  color: var(--color-primary-dark);
   text-transform: uppercase;
+  letter-spacing: 0.5px;
   margin-bottom: 0.75rem;
+  border-left: 3px solid var(--color-primary);
+  padding-left: 0.5rem;
 }
-.icon {
+
+p {
+  font-size: 0.9rem;
+  color: var(--color-gray-dark);
+}
+
+.custom-badge {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.4em 0.8em;
+  border-radius: 999px;
+}
+
+.badge + .badge {
+  margin-left: 0.25rem;
+}
+
+.card-body {
+  padding: 1rem 1.25rem;
+}
+
+.custom-link {
+  color: var(--color-dark);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  word-break: break-all;
+}
+
+.custom-link:hover {
   color: var(--color-primary);
-  font-size: 1.1rem;
+  text-decoration: underline;
 }
 </style>

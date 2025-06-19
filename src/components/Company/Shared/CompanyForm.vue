@@ -4,7 +4,6 @@
     class="modal fade show"
     tabindex="-1"
     style="display: block; background-color: rgba(0, 0, 0, 0.5)"
-    @click.self="cerrarModal"
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
@@ -393,3 +392,159 @@ const guardar = async () => {
   }
 };
 </script>
+
+<style scoped>
+.modal-content {
+  border-radius: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: none;
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 1.25rem 1.5rem;
+  background-color: var(--color-primary);
+  border-bottom: none;
+}
+
+.modal-title {
+  font-weight: 700;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.btn-close {
+  filter: brightness(0) invert(1);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  background-color: #f9fafb;
+  color: var(--color-gray-dark);
+  font-size: 0.95rem;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  background-color: var(--color-gray-light);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  border-top: none;
+}
+
+/* Inputs */
+.form-label {
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.4rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.15rem rgba(59, 130, 246, 0.25);
+}
+
+/* Dropdown */
+.dropdown-toggle {
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+}
+
+.dropdown-menu {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 9999;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s;
+}
+
+.dropdown-item:hover {
+  background-color: #f3f4f6;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.4em 0.75em;
+  border-radius: 999px;
+  font-weight: 600;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+.badge:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+/* Botones */
+.btn {
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn-secondary {
+  background-color: var(--color-gray);
+  border-color: var(--color-gray-dark);
+  color: var(--color-black);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-gray-dark);
+  color: white;
+}
+
+/* Animación */
+.modal.fade.show .modal-dialog {
+  animation: fadeInUp 0.35s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+</style>
