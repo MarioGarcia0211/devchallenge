@@ -158,18 +158,47 @@ const formatearFecha = (timestamp) => {
 </script>
 
 <style scoped>
+.img-thumbnail {
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+}
+
+h5 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
 .soft-badge {
-  background-color: #f1f5f9;
-  color: #334155;
-  padding: 0.35em 0.6em;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  padding: 0.4em 0.7em;
   font-size: 0.75rem;
-  border-radius: 0.5rem;
+  border-radius: 12px;
   font-weight: 500;
+  display: inline-block;
 }
 
 .extra-badge {
-  background-color: #ede9fe;
-  color: #6b21a8;
+  background-color: var(--color-gray-light);
+  color: var(--color-primary-dark);
+  font-weight: bold;
+}
+
+.badge {
+  padding: 0.35rem 0.6rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.bg-success {
+  background-color: var(--color-success) !important;
+  color: white;
+}
+
+.bg-danger {
+  background-color: var(--color-danger) !important;
+  color: white;
 }
 
 .descripcion-truncada {
@@ -184,7 +213,7 @@ const formatearFecha = (timestamp) => {
 .btn-ver-mas {
   background: none;
   border: none;
-  color: var(--color-primary); /* Usa tu color principal */
+  color: var(--color-primary);
   padding: 0;
   margin-top: 4px;
   font-size: 0.9rem;
@@ -194,11 +223,20 @@ const formatearFecha = (timestamp) => {
 }
 
 .btn-ver-mas:hover {
-  color: var(--color-primary-dark); /* Color más oscuro al pasar el mouse */
+  color: var(--color-primary-dark);
   text-decoration: underline;
 }
 
 .btn-ver-mas:active {
   transform: scale(0.95);
+}
+
+.btn-ver-mas:active {
+  transform: scale(0.95);
+}
+
+i.bi {
+  font-size: 1rem;
+  color: var(--color-primary-dark);
 }
 </style>

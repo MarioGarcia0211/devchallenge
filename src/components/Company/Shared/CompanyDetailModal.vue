@@ -5,7 +5,6 @@
     tabindex="-1"
     role="dialog"
     aria-modal="true"
-    @click.self="$emit('cerrar')"
     style="background-color: rgba(0, 0, 0, 0.5)"
   >
     <div
@@ -86,7 +85,6 @@
           </div>
 
           <div class="mt-4 text-muted">
-            <i class="bi bi-calendar-event"></i>
             Fecha de creación:
             {{ formatearFecha(item.fechaCreacion) }}
           </div>
@@ -126,6 +124,68 @@ const formatearFecha = (timestamp) => {
 
 <style scoped>
 .modal-content {
-  border-radius: 10px;
+  border-radius: 16px;
+  background: var(--color-white);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  border: none;
+  overflow: hidden;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.modal-header {
+  background: linear-gradient(
+    90deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  );
+  color: var(--color-white);
+  border-bottom: 3px solid var(--color-primary-light);
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.btn-close {
+  filter: invert(1);
+}
+
+.modal-body {
+  background-color: var(--color-gray-light);
+  padding: 1.5rem;
+}
+
+.modal-footer {
+  background-color: var(--color-gray-light);
+  border-top: 1px solid var(--color-gray);
+}
+
+.badge {
+  padding: 0.4rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.bg-primary {
+  background-color: var(--color-primary) !important;
+}
+
+.bg-success {
+  background-color: var(--color-success) !important;
+}
+
+.bg-danger {
+  background-color: var(--color-danger) !important;
+}
+
+.text-light {
+  color: var(--color-white) !important;
+}
+
+.text-muted {
+  color: var(--color-gray-dark) !important;
 }
 </style>

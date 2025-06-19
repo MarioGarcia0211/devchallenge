@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -60,3 +60,12 @@ export function obtenerDatosUsuario() {
     });
   });
 }
+
+export const actualizarFotoPerfil = async (uid, tipoUsuario, nuevaUrl, campo = "fotoPerfil") => {
+  const docRef = doc(db, "usuarios", uid, tipoUsuario, "datos");
+
+  await updateDoc(docRef, {
+    [campo]: nuevaUrl,
+    fechaActualizacion: serverTimestamp(),
+  });
+};

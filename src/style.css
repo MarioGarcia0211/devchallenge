@@ -116,3 +116,8 @@ body.bg-default {
 .input-group .btn:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
+
+.card {
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}

@@ -8,12 +8,24 @@
       <div class="row g-3 align-items-center text-center text-md-start">
         <!-- Imagen -->
         <div class="col-12 col-md-2 d-flex justify-content-center">
-          <div class="image-wrapper">
-            <img
-              :src="imagenPerfil"
-              alt="Foto de perfil"
-              class="profile-photo"
-            />
+          <div class="avatar-border position-relative">
+            <div class="avatar-inner">
+              <img
+                :src="imagenPerfil"
+                alt="Foto de perfil"
+                class="avatar-img"
+                loading="lazy"
+              />
+            </div>
+
+            <!-- Ícono editable -->
+            <button
+              class="edit-icon-btn"
+              @click="$emit('editar-foto', perfil)"
+              title="Editar imagen"
+            >
+              <i class="bi bi-pencil-fill"></i>
+            </button>
           </div>
         </div>
 
@@ -63,7 +75,7 @@
           <!-- Botones solo si es persona -->
           <div
             v-if="tipo === 'persona'"
-            class="d-flex flex-wrap justify-content-center justify-content-md-end gap-2"
+            class="w-100 d-flex flex-wrap justify-content-center justify-content-md-end gap-2"
           >
             <router-link to="/challenge" class="btn custom-btn btn-sm">
               <i class="bi bi-trophy me-1"></i>
@@ -130,19 +142,70 @@ const subtitulo = computed(() => {
   background: linear-gradient(90deg, #ec4899, #8b5cf6, #3b82f6);
 }
 
-.image-wrapper {
-  width: 150px;
-  height: 150px;
-  overflow: hidden;
-  border: 3px solid white;
-  background-color: #f8fafc;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.avatar-border {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  padding: 4px;
+  background: conic-gradient(
+    from 180deg,
+    var(--color-primary),
+    var(--color-primary-dark),
+    var(--color-primary),
+    var(--color-primary-light)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: spinBorder 4s linear infinite;
+  position: relative;
 }
 
-.profile-photo {
+.avatar-inner {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  border-radius: 50%;
+  background-color: white;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.avatar-border:hover .avatar-inner {
+  transform: scale(1.05);
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Botón flotante para editar imagen */
+.edit-icon-btn {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background-color: white;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, transform 0.2s;
+  z-index: 2;
+}
+
+.edit-icon-btn:hover {
+  background-color: var(--color-primary);
+  color: white;
+  transform: scale(1.05);
 }
 
 .icon {
