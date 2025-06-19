@@ -11,6 +11,7 @@ import CompanyProfileLayout from "../views/CompanyProfileLayout.vue";
 import CompanyProfile from "../components/Company/Profile/CompanyProfile.vue";
 import CompanyChallenge from "../components/Company/Challenge/CompanyChallenge.vue";
 import CompanyVancant from "../components/Company/Vacant/CompanyVacant.vue";
+import Challenge from "../views/Challenge.vue";
 
 // Definición de rutas
 const routes = [
@@ -43,7 +44,13 @@ const routes = [
       { path: "challenge", name: "", component: CompanyChallenge },
       { path: "vacant", name: "", component: CompanyVancant},
     ],
-  }
+  },
+  // Retos
+  {
+    path: "/challenge",
+    name: "",
+    component: Challenge,
+  }, 
 ];
 
 // Crear el router

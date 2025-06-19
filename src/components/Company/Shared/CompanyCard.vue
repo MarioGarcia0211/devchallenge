@@ -10,7 +10,7 @@
           style="width: 60px; height: 60px; object-fit: cover"
         />
         <div class="flex-grow-1">
-          <h5 class="mb-1">{{ item.nombre || item.nombreVacante }}</h5>
+          <h5 class="mb-1">{{ item.nombreReto || item.nombreVacante }}</h5>
           <div
             class="mb-2 d-flex align-items-center"
             v-if="item.programacion?.length"

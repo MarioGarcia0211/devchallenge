@@ -246,13 +246,15 @@ const formData = ref({
   lenguajes: [],
 });
 
+// Cargar datos al mostrar modal
 watch(
   () => props.visible,
   (visible) => {
     if (visible) {
       const d = props.datos || {};
       formData.value = {
-        nombre: d.nombre || "",
+        nombre:
+          props.tipo === "vacante" ? d.nombreVacante || "" : d.nombreReto || "",
         descripcion: d.descripcion || "",
         estado: d.estado || "",
         tecnologias: [...(d.tecnologias || [])],
@@ -265,30 +267,103 @@ watch(
 );
 
 const tecnologiasDisponibles = [
-  "React", "Vue.js", "Angular", "Marketing Digital", "Soporte", "Svelte", "Ember.js", "Backbone.js", 
-  "Django", "Flask", "Ruby on Rails", "Spring", "Laravel", "ASP.NET", "Express.js", "NestJS",
-  "Google Cloud", "AWS", "Azure", "Firebase", "MongoDB", "MySQL", "PostgreSQL", "SQLite", "Redis", 
+  "React",
+  "Vue.js",
+  "Angular",
+  "Marketing Digital",
+  "Soporte",
+  "Svelte",
+  "Ember.js",
+  "Backbone.js",
+  "Django",
+  "Flask",
+  "Ruby on Rails",
+  "Spring",
+  "Laravel",
+  "ASP.NET",
+  "Express.js",
+  "NestJS",
+  "Google Cloud",
+  "AWS",
+  "Azure",
+  "Firebase",
+  "MongoDB",
+  "MySQL",
+  "PostgreSQL",
+  "SQLite",
+  "Redis",
   "DynamoDB",
 ];
 
 const programacionDisponible = [
-  "Frontend", "Backend", "Fullstack", "Mobile", "Desktop", "Web", "API", "Microservicios", "Monolítico", 
-  "Serverless", "Cloud", "On-premise",
+  "Frontend",
+  "Backend",
+  "Fullstack",
+  "Mobile",
+  "Desktop",
+  "Web",
+  "API",
+  "Microservicios",
+  "Monolítico",
+  "Serverless",
+  "Cloud",
+  "On-premise",
 ];
-
 const lenguajesDisponibles = [
-  "JavaScript", "TypeScript", "Python", "Java", "C#", "PHP", "Ruby", "Go", "Swift", "Kotlin", "Rust", 
-  "Scala", "Perl", "R", "Haskell", "Lua", "Dart", "Objective-C", "Clojure", "F#", "Erlang", "Julia", 
-  "COBOL", "Fortran", "Ada", "Lisp", "Scheme", "Prolog", "Smalltalk", "Pascal", "Basic", "Assembly", 
-  "C", "C++",
+  "JavaScript",
+  "TypeScript",
+  "Python",
+  "Java",
+  "C#",
+  "PHP",
+  "Ruby",
+  "Go",
+  "Swift",
+  "Kotlin",
+  "Rust",
+  "Scala",
+  "Perl",
+  "R",
+  "Haskell",
+  "Lua",
+  "Dart",
+  "Objective-C",
+  "Clojure",
+  "F#",
+  "Erlang",
+  "Julia",
+  "COBOL",
+  "Fortran",
+  "Ada",
+  "Lisp",
+  "Scheme",
+  "Prolog",
+  "Smalltalk",
+  "Pascal",
+  "Basic",
+  "Assembly",
+  "C",
+  "C++",
 ];
 
 const cerrarModal = () => emit("cerrar");
 
 const guardar = async () => {
-  const payload = {
-    ...formData.value,
+  // Armar base del payload sin el nombre aún
+  const basePayload = {
+    descripcion: formData.value.descripcion,
+    estado: formData.value.estado,
+    tecnologias: formData.value.tecnologias,
+    programacion: formData.value.programacion,
+    lenguajes: formData.value.lenguajes,
     idUsuarioEmpresa: props.empresa?.uid || null,
+  };
+
+  // Agregar dinámicamente el campo de nombre correcto
+  const payload = {
+    ...basePayload,
+    [props.tipo === "vacante" ? "nombreVacante" : "nombreReto"]:
+      formData.value.nombre,
   };
 
   try {
@@ -307,7 +382,10 @@ const guardar = async () => {
         payload.id = id;
       }
     }
-    toastRef.value?.mostrarToast("success", `${label.value} guardado correctamente`);
+    toastRef.value?.mostrarToast(
+      "success",
+      `${label.value} guardado correctamente`
+    );
     emit("guardado", payload);
     cerrarModal();
   } catch (err) {
