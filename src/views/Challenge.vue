@@ -80,4 +80,56 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn-secondary {
+  background-color: var(--color-gray);
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: var(--color-black);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+h3 {
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.alert-info {
+  background-color: #f0f4ff;
+  border-left: 6px solid var(--color-primary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.alert-info h5 {
+  color: var(--color-primary-dark);
+}
+
+.alert-info p {
+  font-size: 0.95rem;
+  color: var(--color-gray-dark);
+}
+
+.spinner-border {
+  margin-top: 2rem;
+  width: 3rem;
+  height: 3rem;
+}
+
+.row {
+  margin-top: 1rem;
+}
+
+p {
+  color: var(--color-gray-dark);
+  font-size: 1rem;
+}
+</style>
