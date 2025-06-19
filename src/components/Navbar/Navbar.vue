@@ -4,13 +4,16 @@
       class="container-fluid d-flex justify-content-between align-items-center"
     >
       <!-- Logo + Texto -->
-      <router-link class="navbar-brand d-flex align-items-center gap-1" to="/">
+      <router-link class="navbar-brand d-flex align-items-center gap-2" to="/">
         <img
           src="../../assets/logoDevChallenge.svg"
           alt="Logo del proyecto"
           class="logo-navbar"
         />
-        <span>DevChallenge</span>
+        <span class="brand-text">
+          <span class="brand-dev">DEV</span
+          ><span class="brand-challenge">CHALLENGE</span>
+        </span>
       </router-link>
 
       <!-- Botón cerrar sesión -->
@@ -59,16 +62,34 @@ const cerrarSesion = async () => {
   font-weight: bold;
 }
 
-.navbar-brand span {
-  font-size: 28px;
-  display: inline-block;
-  text-transform: uppercase;
-  color: var(--color-primary);
-}
-
 .logo-navbar {
   max-height: 32px;
   width: auto;
   object-fit: contain;
+}
+
+.brand-text {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: flex;
+  gap: 0.25rem;
+  align-items: baseline;
+  text-transform: capitalize;
+}
+
+.brand-dev {
+  color: var(--color-primary); /* Usa tu variable personalizada */
+}
+
+.brand-challenge {
+  color: #555; /* Contraste suave */
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .brand-text {
+    font-size: 1.3rem;
+  }
 }
 </style>

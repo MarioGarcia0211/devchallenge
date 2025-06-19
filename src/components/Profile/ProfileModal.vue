@@ -4,7 +4,6 @@
     class="modal fade show"
     tabindex="-1"
     style="display: block; background-color: rgba(0, 0, 0, 0.5)"
-    @click.self="cerrarModal"
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
