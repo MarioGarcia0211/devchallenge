@@ -1,17 +1,18 @@
-// Importación del sistema de rutas de Vue
 import { createRouter, createWebHistory } from "vue-router";
-
-// Importación de la configuración de Firebase (auth y db)
 import { auth, db } from "../firebase/config";
-
-// Funciones de Firebase para detectar cambios en la sesión y acceder a documentos
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
-// Importación de componentes de vista (páginas principales)
 import Login from "../views/Login.vue";
 import Register from "../views/Register.vue";
-import UserProfile from "../views/UserProfile.vue"
+import PersonProfileLayout from "../views/PersonProfileLayout.vue";
+import PersonProfile from "../components/Person/Profile/PersonProfile.vue";
+import CompanyProfileLayout from "../views/CompanyProfileLayout.vue";
+import CompanyProfile from "../components/Company/Profile/CompanyProfile.vue";
+import CompanyChallenge from "../components/Company/Challenge/CompanyChallenge.vue";
+import CompanyVancant from "../components/Company/Vacant/CompanyVacant.vue";
+import Challenge from "../views/Challenge.vue";
+import Vacant from "../views/Vacant.vue";
 
 // Definición de rutas
 const routes = [
@@ -25,7 +26,37 @@ const routes = [
   {
     path: "/user-profile",
     name: "userProfile",
-    component: UserProfile,
+    component: PersonProfileLayout,
+    meta: { requiresAuth: true, role: "persona" }, // Requiere estar autenticado y tener rol "persona"
+    redirect: "/user-profile/profile", // Redirige a la subruta "profile"
+    children: [
+      { path: "profile", name: "", component: PersonProfile, props: true },
+    ],
+  },
+  // Perfil de usuario (empresa)
+  {
+    path: "/company-profile",
+    name: "companyProfile",
+    component: CompanyProfileLayout,
+    meta: { requiresAuth: true, role: "empresa" }, // Requiere estar autenticado y tener rol "empresa"
+    redirect: "/company-profile/profile", // Redirige a la subruta "profile"
+    children: [
+      { path: "profile", name: "", component: CompanyProfile, props: true },
+      { path: "challenge", name: "", component: CompanyChallenge },
+      { path: "vacant", name: "", component: CompanyVancant},
+    ],
+  },
+  // Retos
+  {
+    path: "/challenge",
+    name: "",
+    component: Challenge,
+  }, 
+  // Vacantes
+  {
+    path: "/vacant",
+    name: "",
+    component: Vacant,
   },
 ];
 

@@ -10,11 +10,14 @@
           alt="Logo del proyecto"
           class="logo-navbar"
         />
-        <span>DevChallenge</span>
+        <span class="brand-text">
+          <span class="brand-dev">DEV</span
+          ><span class="brand-challenge">CHALLENGE</span>
+        </span>
       </router-link>
 
       <!-- Botón cerrar sesión -->
-      <button class="btn btn-outline-danger btn-sm" @click="cerrarSesion">
+      <button class="btn btn-danger btn-sm text-white" @click="cerrarSesion">
         Cerrar sesión
       </button>
     </div>
@@ -60,7 +63,33 @@ const cerrarSesion = async () => {
 }
 
 .logo-navbar {
-  max-height: 40px;
+  max-height: 32px;
+  width: auto;
   object-fit: contain;
+}
+
+.brand-text {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: flex;
+  gap: 0.25rem;
+  align-items: baseline;
+  text-transform: capitalize;
+}
+
+.brand-dev {
+  color: var(--color-primary); /* Usa tu variable personalizada */
+}
+
+.brand-challenge {
+  color: #555; /* Contraste suave */
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .brand-text {
+    font-size: 1.3rem;
+  }
 }
 </style>

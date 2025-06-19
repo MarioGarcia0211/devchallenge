@@ -50,7 +50,8 @@ export const registrarUsuario = async (
     await setDoc(doc(db, "usuarios", uid), {
       correo: email,
       tipoUsuario,
-      fechaRegistro: serverTimestamp(), // fecha de registro desde el servidor
+      fechaCreacion: serverTimestamp(),
+      fechaActualizacion: serverTimestamp()
     });
 
     // Copia los datos y elimina la contraseña

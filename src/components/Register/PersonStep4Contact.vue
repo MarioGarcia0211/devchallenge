@@ -120,16 +120,28 @@
       <!-- Contraseña -->
       <div class="col-md-6 mb-2">
         <label for="contrasena" class="form-label">Contraseña</label>
-        <input
-          id="contrasena"
-          type="password"
-          class="form-control"
-          :class="{ 'is-invalid': errores.contrasena }"
-          v-model="form.contrasena"
-          placeholder="Mínimo 8 caracteres"
-          @input="errores.contrasena = ''"
-          @blur="validarCampo('contrasena', form.contrasena)"
-        />
+        <div class="input-group">
+          <input
+            id="contrasena"
+            :type="mostrarContrasena ? 'text' : 'password'"
+            class="form-control"
+            :class="{ 'is-invalid': errores.contrasena }"
+            v-model="form.contrasena"
+            placeholder="Mínimo 8 caracteres"
+            @input="errores.contrasena = ''"
+            @blur="validarCampo('contrasena', form.contrasena)"
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="mostrarContrasena = !mostrarContrasena"
+            :aria-label="
+              mostrarContrasena ? 'Ocultar contraseña' : 'Mostrar contraseña'
+            "
+          >
+            <i :class="mostrarContrasena ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
+        </div>
       </div>
 
       <!-- Confirmar contraseña -->
@@ -137,18 +149,37 @@
         <label for="confirmarContrasena" class="form-label"
           >Confirmar contraseña</label
         >
-        <input
-          id="confirmarContrasena"
-          type="password"
-          class="form-control"
-          :class="{
-            'is-invalid': errores.confirmarContrasena || contrasenasNoCoinciden,
-          }"
-          v-model="confirmarContrasena"
-          placeholder="Mínimo 8 caracteres"
-          @input="errores.confirmarContrasena = ''"
-          @blur="validarCampo('confirmarContrasena', confirmarContrasena)"
-        />
+        <div class="input-group">
+          <input
+            id="confirmarContrasena"
+            :type="mostrarConfirmarContrasena ? 'text' : 'password'"
+            class="form-control"
+            :class="{
+              'is-invalid':
+                errores.confirmarContrasena || contrasenasNoCoinciden,
+            }"
+            v-model="confirmarContrasena"
+            placeholder="Mínimo 8 caracteres"
+            @input="errores.confirmarContrasena = ''"
+            @blur="validarCampo('confirmarContrasena', confirmarContrasena)"
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            @click="mostrarConfirmarContrasena = !mostrarConfirmarContrasena"
+            :aria-label="
+              mostrarConfirmarContrasena
+                ? 'Ocultar contraseña'
+                : 'Mostrar contraseña'
+            "
+          >
+            <i
+              :class="
+                mostrarConfirmarContrasena ? 'bi bi-eye-slash' : 'bi bi-eye'
+              "
+            ></i>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -178,6 +209,8 @@ import { verificarCorreoUnico } from "../../services/authServices";
 import Toast from "../Toast/Toast.vue";
 
 const confirmarContrasena = ref("");
+const mostrarContrasena = ref(false);
+const mostrarConfirmarContrasena = ref(false);
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue", "enviar", "anterior"]);
 const toastRef = ref(null);
@@ -248,7 +281,7 @@ async function validarYEnviar() {
 
   if (existe) {
     errores.correo = "Este correo ya está registrado.";
-    toastRef.value?.mostrarToast("error", error.correo);
+    toastRef.value?.mostrarToast("error", errores.correo);
     return;
   }
 

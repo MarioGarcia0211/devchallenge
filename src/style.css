@@ -20,7 +20,7 @@ body.bg-default {
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
-  min-height: 74.5vh;
+  min-height: 71.8vh;
 }
 
 .form-control {
@@ -47,9 +47,6 @@ body.bg-default {
 .btn-primary {
   background-color: var(--color-primary);
   border: none;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 10px;
   transition: background-color 0.3s;
 }
 
@@ -81,4 +78,46 @@ body.bg-default {
 .badge.bg-primary {
   background-color: var(--color-primary) !important;
   color: white;
+}
+
+.custom-badge {
+  background-color: #ede9fe;
+  color: var(--color-primary);
+  font-weight: 500;
+  padding: 0.4em 0.6em;
+  border-radius: 1rem;
+}
+
+.input-group {
+  border: 1px solid var(--color-gray);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.input-group .form-control {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.input-group .btn {
+  border: none;
+  background-color: transparent;
+  color: var(--color-primary);
+  font-size: 1.2rem;
+}
+
+.input-group:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 5px var(--color-primary-light);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group .btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.card {
+  border: 1px solid rgba(139, 92, 246, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
