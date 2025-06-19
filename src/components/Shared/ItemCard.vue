@@ -39,7 +39,12 @@
       </div>
 
       <!-- Descripción -->
-      <p class="text-truncated descripcion-truncada">{{ item.descripcion }}</p>
+      <div class="mb-2">
+        <p class="text-truncated descripcion-truncada mb-1">
+          {{ item.descripcion }}
+        </p>
+        <button class="btn-ver-mas">Ver más</button>
+      </div>
 
       <!-- Tecnologías -->
       <div class="mb-2 d-flex align-items-center">
@@ -99,6 +104,11 @@
           </span>
         </div>
       </div>
+      <hr />
+
+      <div class="mt-auto text-start">
+        Fecha de publicación: {{ formatearFecha(item.fechaCreacion) }}
+      </div>
     </div>
   </div>
 
@@ -115,17 +125,30 @@
 
 <script setup>
 import { ref, computed, watch } from "vue";
-import ItemModal from "./ItemModal.vue"; // Asegúrate de tener este modal genérico
-import { verificarRegistro } from "../../services/challengeServices"; // Puedes hacerlo genérico también
+import ItemModal from "./ItemModal.vue";
+import { verificarRegistro } from "../../services/challengeServices";
 
 const props = defineProps({
   item: Object,
-  tipo: String, // "reto" o "vacante"
+  tipo: String,
   persona: Object,
 });
 
 const mostrarModal = ref(false);
 const estaParticipando = ref(false);
+
+const formatearFecha = (timestamp) => {
+  if (!timestamp?.toDate) return "Fecha no válida";
+  const fecha = timestamp.toDate();
+  return fecha.toLocaleString("es-ES", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
 
 function abrirModal() {
   mostrarModal.value = true;
@@ -158,18 +181,47 @@ watch(() => [props.item, props.persona], chequearParticipacion, {
 </script>
 
 <style scoped>
+.img-thumbnail {
+  border: 2px solid var(--color-primary);
+  border-radius: 12px;
+}
+
+h5 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
 .soft-badge {
-  background-color: #f1f5f9;
-  color: #334155;
-  padding: 0.35em 0.6em;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  padding: 0.4em 0.7em;
   font-size: 0.75rem;
-  border-radius: 0.5rem;
+  border-radius: 12px;
   font-weight: 500;
+  display: inline-block;
 }
 
 .extra-badge {
-  background-color: #ede9fe;
-  color: #6b21a8;
+  background-color: var(--color-gray-light);
+  color: var(--color-primary-dark);
+  font-weight: bold;
+}
+
+.badge {
+  padding: 0.35rem 0.6rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.bg-success {
+  background-color: var(--color-success) !important;
+  color: white;
+}
+
+.bg-danger {
+  background-color: var(--color-danger) !important;
+  color: white;
 }
 
 .descripcion-truncada {
@@ -179,6 +231,36 @@ watch(() => [props.item, props.persona], chequearParticipacion, {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   text-overflow: ellipsis;
+}
+
+.btn-ver-mas {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  padding: 0;
+  margin-top: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s, transform 0.1s;
+}
+
+.btn-ver-mas:hover {
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+}
+
+.btn-ver-mas:active {
+  transform: scale(0.95);
+}
+
+.btn-ver-mas:active {
+  transform: scale(0.95);
+}
+
+i.bi {
+  font-size: 1rem;
+  color: var(--color-primary-dark);
 }
 
 .card {

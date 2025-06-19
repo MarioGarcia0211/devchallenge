@@ -33,7 +33,7 @@
     <div v-else>
       <div v-if="retos.length > 0" class="row">
         <div
-          class="col-12 col-sm-6 col-lg-4 mb-4"
+          class="col-12 col-sm-12 col-md-6 col-lg-4 mb-4"
           v-for="reto in retos"
           :key="reto.id"
         >
