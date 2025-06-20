@@ -109,6 +109,8 @@ const props = defineProps({
   reto: Object,
 });
 
+defineEmits(["ver-detalle"]);
+
 const formatearFecha = (timestamp) => {
   if (!timestamp?.toDate) return "Fecha no válida";
   const fecha = timestamp.toDate();
