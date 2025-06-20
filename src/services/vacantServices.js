@@ -132,7 +132,7 @@ export const registrarParticipacionVacante = async (idVacante, idPersona) => {
       fechaActualizacion: serverTimestamp()
     };
 
-    // Subcolección dentro del reto
+    // Subcolección dentro del vacante
     const subcoleccionRef = collection(db, `vacantes/${idVacante}/postulacionVacante`);
     await addDoc(subcoleccionRef, participacionData);
 
@@ -153,6 +153,75 @@ export const verificarRegistroVacante = async (idVacante, idPersona) => {
     return !querySnapshot.empty; // true si ya está registrado
   } catch (error) {
     console.error("Error al verificar la participación:", error);
+    throw error;
+  }
+};
+
+export const obtenerVacantesPorPersonaYEstado = async (
+  idPersona,
+  estado = null
+) => {
+  try {
+    let filtros = [where("idPersona", "==", idPersona)];
+
+    if (estado !== null) {
+      filtros.push(where("estado", "==", estado));
+    }
+
+    // Añadir orden por fechaCreacion descendente
+    filtros.push(orderBy("fechaCreacion", "desc"));
+
+    const q = query(collectionGroup(db, "postulacionVacante"), ...filtros);
+    const querySnapshot = await getDocs(q);
+
+    const vacantesParticipando = [];
+
+    for (const docPostulacion of querySnapshot.docs) {
+      const dataPostulacion = docPostulacion.data();
+      const vacanteId = dataPostulacion.idVacante;
+
+      const vacanteDocRef = doc(db, "vacantes", vacanteId);
+      const vacanteDocSnap = await getDoc(vacanteDocRef);
+
+      if (vacanteDocSnap.exists()) {
+        const vacanteData = vacanteDocSnap.data();
+        const empresaId = vacanteData.idUsuarioEmpresa;
+
+        let empresaData = null;
+
+        try {
+          const empresaDocRef = doc(
+            db,
+            "usuarios",
+            empresaId,
+            "empresa",
+            "datos"
+          );
+          const empresaDocSnap = await getDoc(empresaDocRef);
+
+          if (empresaDocSnap.exists()) {
+            empresaData = empresaDocSnap.data();
+          }
+        } catch (e) {
+          console.warn(
+            `Error obteniendo empresa para usuario ${empresaId}:`,
+            e
+          );
+        }
+
+        vacantesParticipando.push({
+          id: vacanteDocSnap.id,
+          ...vacanteData,
+          estadoPostulacion: dataPostulacion.estado,
+          fechaPostulacion: dataPostulacion.fechaCreacion,
+          empresa: empresaData,
+        });
+      }
+    }
+
+    return vacantesParticipando;
+  } catch (error) {
+    console.error("Error al obtener los vacantes por persona y estado:", error);
     throw error;
   }
 };

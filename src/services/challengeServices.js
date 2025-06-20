@@ -184,12 +184,14 @@ export const obtenerRetosPorPersonaYEstado = async (
   estado = null
 ) => {
   try {
-    // Construir los filtros dinámicamente
     let filtros = [where("idPersona", "==", idPersona)];
 
     if (estado !== null) {
       filtros.push(where("estado", "==", estado));
     }
+
+    // Añadir orden por fechaCreacion descendente
+    filtros.push(orderBy("fechaCreacion", "desc"));
 
     const q = query(collectionGroup(db, "postulacionReto"), ...filtros);
     const querySnapshot = await getDocs(q);
@@ -200,7 +202,6 @@ export const obtenerRetosPorPersonaYEstado = async (
       const dataPostulacion = docPostulacion.data();
       const retoId = dataPostulacion.idReto;
 
-      // Obtener los datos del reto
       const retoDocRef = doc(db, "retos", retoId);
       const retoDocSnap = await getDoc(retoDocRef);
 
@@ -233,8 +234,9 @@ export const obtenerRetosPorPersonaYEstado = async (
         retosParticipando.push({
           id: retoDocSnap.id,
           ...retoData,
-          estadoParticipacion: dataPostulacion.estado,
-          empresa: empresaData, // se agrega la información de la empresa
+          estadoPostulacion: dataPostulacion.estado,
+          fechaPostulacion: dataPostulacion.fechaCreacion,
+          empresa: empresaData,
         });
       }
     }
@@ -245,3 +247,4 @@ export const obtenerRetosPorPersonaYEstado = async (
     throw error;
   }
 };
+
