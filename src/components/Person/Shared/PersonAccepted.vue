@@ -17,11 +17,19 @@
           v-for="reto in retos"
           :key="reto.id"
         >
-          <PersonCard :reto="reto" />
+          <PersonCard :reto="reto" @ver-detalle="abrirDetalle" />
         </div>
       </div>
       <p v-else>No hay {{ tipoPlural }} registrados.</p>
     </div>
+
+    <!-- Modal reutilizable -->
+    <PersonDetailModal
+      :visible="mostrarDetalle"
+      :item="itemSeleccionado"
+      :tipo="props.tipo"
+      @cerrar="cerrarDetalle"
+    />
   </div>
 </template>
 
@@ -30,6 +38,7 @@ import { ref, watch, computed } from "vue";
 import { obtenerRetosPorPersonaYEstado } from "../../../services/challengeServices";
 import { obtenerVacantesPorPersonaYEstado } from "../../../services/vacantServices";
 import PersonCard from "./PersonCard.vue";
+import PersonDetailModal from "./PersonDetailModal.vue";
 
 const props = defineProps({
   persona: Object,
@@ -38,8 +47,9 @@ const props = defineProps({
 
 const retos = ref([]);
 const loading = ref(true);
+const mostrarDetalle = ref(false);
+const itemSeleccionado = ref(null);
 
-// Capitaliza tipo y estado para mostrar en título
 const estado = "aceptado";
 
 const titulo = computed(() => {
@@ -53,27 +63,17 @@ const tipoPlural = computed(() =>
   props.tipo === "vacante" ? "vacantes" : "retos"
 );
 
-// Lógica reactiva
+// Cargar los datos cuando llega la persona
 watch(
   () => props.persona,
   async (nuevaPersona) => {
     if (nuevaPersona?.uid) {
       loading.value = true;
       try {
-        if (props.tipo === "reto") {
-          retos.value = await obtenerRetosPorPersonaYEstado(
-            nuevaPersona.uid,
-            estado
-          );
-        } else if (props.tipo === "vacante") {
-          retos.value = await obtenerVacantesPorPersonaYEstado(
-            nuevaPersona.uid,
-            estado
-          );
-        } else {
-          console.warn("Tipo desconocido:", props.tipo);
-        }
-        console.log("Resultados:", retos.value);
+        retos.value =
+          props.tipo === "vacante"
+            ? await obtenerVacantesPorPersonaYEstado(nuevaPersona.uid, estado)
+            : await obtenerRetosPorPersonaYEstado(nuevaPersona.uid, estado);
       } catch (error) {
         console.error("Error al obtener datos:", error);
       } finally {
@@ -83,4 +83,14 @@ watch(
   },
   { immediate: true }
 );
+
+// Manejo del modal
+function abrirDetalle(reto) {
+  itemSeleccionado.value = reto;
+  mostrarDetalle.value = true;
+}
+function cerrarDetalle() {
+  mostrarDetalle.value = false;
+  itemSeleccionado.value = null;
+}
 </script>
