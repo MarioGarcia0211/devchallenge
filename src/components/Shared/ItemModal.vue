@@ -49,7 +49,7 @@
                 :class="{ active: tabActivo === 'detalle' }"
                 @click="tabActivo = 'detalle'"
               >
-                Detalles del {{ tipo }}
+                Detalles
               </button>
             </li>
             <li class="nav-item">

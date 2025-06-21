@@ -1,5 +1,8 @@
 <template>
-  <div class="card shadow rounded overflow-hidden h-100 d-flex flex-column">
+  <div
+    class="card shadow rounded overflow-hidden h-100 d-flex flex-column"
+    @click="$emit('ver-detalle', reto)"
+  >
     <div class="card-body d-flex flex-column h-100">
       <!-- Logo y nombre -->
       <div class="d-flex align-items-center mb-3">
@@ -40,9 +43,7 @@
         <p class="text-truncated descripcion-truncada mb-1">
           {{ reto.descripcion }}
         </p>
-        <button class="btn-ver-mas" @click="$emit('ver-detalle', reto)">
-          Ver más
-        </button>
+        <button class="btn-ver-mas">Ver más</button>
       </div>
 
       <!-- Tecnologías -->
@@ -236,5 +237,25 @@ h5 {
 i.bi {
   font-size: 1rem;
   color: var(--color-primary-dark);
+}
+
+.card {
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+  background-color: white;
+}
+
+.card:hover {
+  background-color: #fafafa;
+  border-color: var(--color-primary-light);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+}
+
+.card:active {
+  transform: scale(0.98);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 </style>

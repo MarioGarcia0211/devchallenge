@@ -74,6 +74,7 @@ watch(
           props.tipo === "vacante"
             ? await obtenerVacantesPorPersonaYEstado(nuevaPersona.uid, estado)
             : await obtenerRetosPorPersonaYEstado(nuevaPersona.uid, estado);
+        console.log("resultado:", retos.value);
       } catch (error) {
         console.error("Error al obtener datos:", error);
       } finally {

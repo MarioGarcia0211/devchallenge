@@ -41,50 +41,102 @@
 
         <!-- Body -->
         <div class="modal-body">
+          <!-- Tabs -->
+          <ul class="nav nav-pills nav-fill gap-2 mb-4" id="tabs">
+            <li class="nav-item">
+              <button
+                class="nav-link"
+                :class="{ active: tabActivo === 'detalle' }"
+                @click="tabActivo = 'detalle'"
+              >
+                Detalles
+              </button>
+            </li>
+            <li class="nav-item">
+              <button
+                class="nav-link"
+                :class="{ active: tabActivo === 'empresa' }"
+                @click="tabActivo = 'empresa'"
+              >
+                Empresa
+              </button>
+            </li>
+          </ul>
           <!-- Contenido -->
-          <p><strong>Descripción:</strong></p>
-          <div>{{ item.descripcion || "Sin descripción disponible." }}</div>
+          <div v-if="tabActivo === 'detalle'">
+            <p><strong>Descripción:</strong></p>
+            <div>{{ item.descripcion || "Sin descripción disponible." }}</div>
 
-          <p class="mt-3"><strong>Lenguajes:</strong></p>
-          <div>
-            <span
-              v-for="(lang, i) in item.lenguajes"
-              :key="'lang-' + i"
-              class="badge me-1 soft-badge"
-            >
-              {{ lang }}
-            </span>
-            <span v-if="!item.lenguajes?.length" class="text-muted"
-              >No definido</span
-            >
+            <p class="mt-3"><strong>Lenguajes:</strong></p>
+            <div>
+              <span
+                v-for="(lang, i) in item.lenguajes"
+                :key="'lang-' + i"
+                class="badge me-1 soft-badge"
+              >
+                {{ lang }}
+              </span>
+              <span v-if="!item.lenguajes?.length" class="text-muted"
+                >No definido</span
+              >
+            </div>
+
+            <p class="mt-3"><strong>Tecnologías:</strong></p>
+            <div>
+              <span
+                v-for="(tec, i) in item.tecnologias"
+                :key="'tec-' + i"
+                class="badge me-1 soft-badge"
+              >
+                {{ tec }}
+              </span>
+              <span v-if="!item.tecnologias?.length" class="text-muted"
+                >No definido</span
+              >
+            </div>
+
+            <p class="mt-3"><strong>Programación:</strong></p>
+            <div>
+              <span
+                v-for="(prog, i) in item.programacion"
+                :key="'prog-' + i"
+                class="badge me-1 soft-badge"
+              >
+                {{ prog }}
+              </span>
+              <span v-if="!item.programacion?.length" class="text-muted"
+                >No definido</span
+              >
+            </div>
           </div>
 
-          <p class="mt-3"><strong>Tecnologías:</strong></p>
-          <div>
-            <span
-              v-for="(tec, i) in item.tecnologias"
-              :key="'tec-' + i"
-              class="badge me-1 soft-badge"
-            >
-              {{ tec }}
-            </span>
-            <span v-if="!item.tecnologias?.length" class="text-muted"
-              >No definido</span
-            >
-          </div>
+          <div v-else-if="tabActivo === 'empresa'">
+            <p><strong>Nombre de la empresa:</strong></p>
+            <p>{{ item.empresa.nombreEmpresa }}</p>
 
-          <p class="mt-3"><strong>Programación:</strong></p>
-          <div>
-            <span
-              v-for="(prog, i) in item.programacion"
-              :key="'prog-' + i"
-              class="badge me-1 soft-badge"
-            >
-              {{ prog }}
-            </span>
-            <span v-if="!item.programacion?.length" class="text-muted"
-              >No definido</span
-            >
+            <p><strong>Descripción:</strong></p>
+            <p>
+              {{ item.empresa.descripcion || "Sin descripción disponible." }}
+            </p>
+
+            <p><strong>Sitio web:</strong></p>
+            <p>
+              <a
+                v-if="item.empresa.paginaWeb"
+                :href="item.empresa.paginaWeb"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ item.empresa.paginaWeb }}
+              </a>
+              <span v-else>No disponible</span>
+            </p>
+
+            <p><strong>Ubicación:</strong></p>
+            <p>
+              {{ item.empresa.ciudad || "No especificada" }},
+              {{ item.empresa.pais }}
+            </p>
           </div>
         </div>
 
