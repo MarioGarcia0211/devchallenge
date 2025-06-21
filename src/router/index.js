@@ -13,6 +13,8 @@ import CompanyChallenge from "../components/Company/Challenge/CompanyChallenge.v
 import CompanyVancant from "../components/Company/Vacant/CompanyVacant.vue";
 import Challenge from "../views/Challenge.vue";
 import Vacant from "../views/Vacant.vue";
+import PersonChallenge from "../components/Person/Challenge/PersonChallenge.vue";
+import PersonVacant from "../components/Person/Vacant/PersonVacant.vue";
 
 // Definición de rutas
 const routes = [
@@ -31,6 +33,9 @@ const routes = [
     redirect: "/user-profile/profile", // Redirige a la subruta "profile"
     children: [
       { path: "profile", name: "", component: PersonProfile, props: true },
+      { path: "challenge", name: "", component: PersonChallenge },
+      { path: "vacant", name: "", component: PersonVacant },
+
     ],
   },
   // Perfil de usuario (empresa)

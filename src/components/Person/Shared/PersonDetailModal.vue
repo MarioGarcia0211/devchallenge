@@ -1,45 +1,45 @@
 <template>
   <div
-    v-if="visible"
+    v-if="visible && item"
     class="modal fade show"
     tabindex="-1"
     style="display: block; background-color: rgba(0, 0, 0, 0.5)"
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
+        <!-- Header -->
         <div class="modal-header align-items-start flex-column border-0 pb-0">
           <div class="d-flex align-items-center w-100">
             <img
-              :src="item.empresa.logo"
+              :src="item.empresa?.logo"
               alt="Logo empresa"
               class="img-thumbnail me-3"
               style="width: 80px; height: 80px; object-fit: cover"
             />
             <div>
-              <h5 class="modal-title mb-1 fw-bold">{{ nombreItem }}</h5>
-              <small class="text-muted">
-                Publicado por <strong>{{ item.empresa.nombreEmpresa }}</strong>
-              </small>
+              <h5 class="modal-title mb-1 fw-bold">
+                {{ item.nombreReto || item.nombreVacante || "Sin título" }}
+              </h5>
+
               <div class="mt-1">
                 <span class="text-muted me-1">Estado:</span>
                 <span
                   class="badge"
-                  :class="{
-                    'bg-success': item.estado.toLowerCase() === 'abierto',
-                    'bg-danger': item.estado.toLowerCase() === 'cerrado',
-                    'bg-secondary':
-                      item.estado.toLowerCase() !== 'abierto' &&
-                      item.estado.toLowerCase() !== 'cerrado',
-                  }"
+                  :class="estadoClase(item.estadoPostulacion)"
                 >
-                  {{ item.estado }}
+                  {{ item.estadoPostulacion }}
                 </span>
               </div>
+
+              <small class="text-muted">
+                Te postulaste el {{ formatearFecha(item.fechaPostulacion) }}
+              </small>
             </div>
           </div>
           <br />
         </div>
 
+        <!-- Body -->
         <div class="modal-body">
           <!-- Tabs -->
           <ul class="nav nav-pills nav-fill gap-2 mb-4" id="tabs">
@@ -62,46 +62,51 @@
               </button>
             </li>
           </ul>
-
-          <!-- Contenido según tab -->
+          <!-- Contenido -->
           <div v-if="tabActivo === 'detalle'">
             <p><strong>Descripción:</strong></p>
-            <div>{{ item.descripcion }}</div>
+            <div>{{ item.descripcion || "Sin descripción disponible." }}</div>
 
-            <!-- Lenguajes -->
             <p class="mt-3"><strong>Lenguajes:</strong></p>
             <div>
               <span
-                v-for="(lang, index) in item.lenguajes"
-                :key="'lang-' + index"
+                v-for="(lang, i) in item.lenguajes"
+                :key="'lang-' + i"
                 class="badge me-1 soft-badge"
               >
                 {{ lang }}
               </span>
+              <span v-if="!item.lenguajes?.length" class="text-muted"
+                >No definido</span
+              >
             </div>
 
-            <!-- Tecnologías -->
             <p class="mt-3"><strong>Tecnologías:</strong></p>
             <div>
               <span
-                v-for="(tec, index) in item.tecnologias"
-                :key="'tec-' + index"
+                v-for="(tec, i) in item.tecnologias"
+                :key="'tec-' + i"
                 class="badge me-1 soft-badge"
               >
                 {{ tec }}
               </span>
+              <span v-if="!item.tecnologias?.length" class="text-muted"
+                >No definido</span
+              >
             </div>
 
-            <!-- Programación -->
             <p class="mt-3"><strong>Programación:</strong></p>
             <div>
               <span
-                v-for="(prog, index) in item.programacion"
-                :key="'prog-' + index"
+                v-for="(prog, i) in item.programacion"
+                :key="'prog-' + i"
                 class="badge me-1 soft-badge"
               >
                 {{ prog }}
               </span>
+              <span v-if="!item.programacion?.length" class="text-muted"
+                >No definido</span
+              >
             </div>
           </div>
 
@@ -135,120 +140,57 @@
           </div>
         </div>
 
+        <!-- Footer -->
         <div class="modal-footer">
-          <button class="btn btn-secondary" @click="cerrarModal">Cerrar</button>
-
-          <button
-            v-if="!estaRegistrado"
-            class="btn btn-primary"
-            @click="participar"
-            :disabled="item.estado.toLowerCase() === 'cerrado'"
-            :title="
-              item.estado.toLowerCase() === 'cerrado'
-                ? 'No puedes participar en un ' + tipo + ' cerrado'
-                : ''
-            "
-          >
-            Participar
+          <button class="btn btn-secondary" @click="$emit('cerrar')">
+            Cerrar
           </button>
-
-          <button v-else class="btn btn-success" disabled>Participando</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- Toast -->
-  <Toast ref="toastRef" />
 </template>
 
 <script setup>
-import { ref, watch, computed } from "vue";
-import {
-  verificarRegistroReto,
-  registrarParticipacionReto,
-} from "../../services/challengeServices";
-import {
-  registrarParticipacionVacante,
-  verificarRegistroVacante,
-} from "../../services/vacantServices";
-import Toast from "../Toast/Toast.vue";
+import { ref } from "vue";
 
 const props = defineProps({
   visible: Boolean,
   item: Object,
-  tipo: String, // "reto" o "vacante"
-  persona: Object,
+  empresa: Object,
 });
 
-const emit = defineEmits(["cerrar", "registroExitoso"]);
-
-const estaRegistrado = ref(false);
 const tabActivo = ref("detalle");
-const toastRef = ref(null);
 
-const cerrarModal = () => {
-  emit("cerrar");
-  estaRegistrado.value = false;
+const formatearFecha = (timestamp) => {
+  if (!timestamp?.toDate) return "Fecha no válida";
+  const fecha = timestamp.toDate();
+  return fecha.toLocaleString("es-ES", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
 };
 
-const nombreItem = computed(() =>
-  props.tipo === "reto" ? props.item?.nombreReto : props.item?.nombreVacante
-);
-
-watch(
-  () => [props.visible, props.item, props.persona],
-  async ([visible, item, persona]) => {
-    if (visible && item && persona) {
-      try {
-        if (props.tipo === "reto") {
-          estaRegistrado.value = await verificarRegistroReto(
-            item.id,
-            persona.uid
-          );
-        } else {
-          estaRegistrado.value = await verificarRegistroVacante(
-            item.id,
-            persona.uid
-          );
-        }
-      } catch (error) {
-        console.error("Error verificando registro:", error);
-      }
-    } else {
-      estaRegistrado.value = false;
-    }
-  },
-  { immediate: true }
-);
-
-const participar = async () => {
-  const uid = props.persona?.uid;
-  const id = props.item?.id;
-
-  try {
-    if (estaRegistrado.value) {
-      alert("Ya estás registrado en este " + props.tipo + ".");
-      return;
-    }
-
-    if (props.item?.estado?.toLowerCase() === "cerrado") {
-      alert("Este " + props.tipo + " está cerrado. No puedes registrarte.");
-      return;
-    }
-
-    if (props.tipo === "reto") {
-      await registrarParticipacionReto(id, uid);
-    } else {
-      await registrarParticipacionVacante(id, uid);
-    }
-    emit("registroExitoso");
-    estaRegistrado.value = true;
-    toastRef.value?.mostrarToast("success", "Te has registrado exitosamente.");
-  } catch (error) {
-    console.error("Error al participar:", error);
-    alert("Ocurrió un error al registrarte.");
+function estadoClase(estado) {
+  switch (estado.toLowerCase()) {
+    case "pendiente":
+      return "bg-warning text-white";
+    case "en revisión":
+      return "bg-review text-white";
+    case "en proceso":
+      return "bg-process text-white";
+    case "aceptado":
+      return "bg-success text-white";
+    case "rechazado":
+      return "bg-reject text-white";
+    default:
+      return "bg-secondary text-white";
   }
-};
+}
 </script>
 
 <style scoped>
@@ -256,12 +198,6 @@ const participar = async () => {
   border: 2px solid var(--color-primary);
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-h5 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--color-primary-dark);
 }
 
 .soft-badge {
@@ -294,8 +230,21 @@ h5 {
   color: white;
 }
 
-.bg-danger {
-  background-color: var(--color-danger) !important;
+.bg-warning {
+  background-color: var(--color-warning) !important;
+  color: white;
+}
+.bg-review {
+  background-color: var(--color-review) !important;
+  color: white;
+}
+.bg-process {
+  background-color: var(--color-process) !important;
+  color: white;
+}
+
+.bg-reject {
+  background-color: var(--color-reject) !important;
   color: white;
 }
 
@@ -357,20 +306,6 @@ h5 {
   transition: all 0.2s ease-in-out;
 }
 
-.btn-primary {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-}
-
-.btn-primary:hover {
-  background-color: var(--color-primary-dark);
-}
-
-.btn-success {
-  background-color: var(--color-success);
-  border-color: var(--color-success);
-}
-
 .btn-secondary {
   background-color: var(--color-gray);
   border-color: var(--color-gray-dark);
@@ -380,31 +315,5 @@ h5 {
 .btn-secondary:hover {
   background-color: var(--color-gray-dark);
   color: white;
-}
-
-.modal.fade.show .modal-dialog {
-  animation: fadeInUp 0.4s ease-out;
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (max-width: 576px) {
-  .modal-footer {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .btn {
-    width: 100%;
-  }
 }
 </style>

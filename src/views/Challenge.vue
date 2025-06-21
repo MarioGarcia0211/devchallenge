@@ -62,7 +62,11 @@ const loading = ref(true);
 const router = useRouter();
 
 function goBack() {
-  router.back();
+  if (window.history.length > 1) {
+    router.back();
+  } else {
+    router.push("/user-profile/profile");
+  }
 }
 
 onMounted(async () => {

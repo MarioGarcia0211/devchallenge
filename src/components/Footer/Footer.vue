@@ -3,7 +3,7 @@
     <div
       class="container d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-start"
     >
-      <div class="mb-3 mb-md-0 text-white-50 small">
+      <div class="mb-3 mb-md-0 text-white-50">
         © {{ new Date().getFullYear() }} Mario García. Todos los derechos
         reservados.
       </div>
