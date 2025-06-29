@@ -1,7 +1,38 @@
 <template>
   <ul class="nav nav-pills user-tabs d-flex">
-    <li v-for="tab in tabs" :key="tab.label" class="nav-item">
+    <li
+      v-for="tab in tabs"
+      :key="tab.label"
+      class="nav-item"
+      :class="{ dropdown: tab.children }"
+    >
+      <!-- Dropdown -->
+      <div
+        v-if="tab.children"
+        class="nav-link dropdown-toggle"
+        data-bs-toggle="dropdown"
+        role="button"
+        :class="{ active: isDropdownActive(tab) }"
+      >
+        <i :class="tab.icon" class="me-1"></i>
+        {{ tab.label }}
+      </div>
+
+      <ul v-if="tab.children" class="dropdown-menu">
+        <li v-for="child in tab.children" :key="child.label">
+          <router-link
+            class="dropdown-item"
+            :to="child.route"
+            :class="{ active: $route.path.startsWith(child.route) }"
+          >
+            {{ child.label }}
+          </router-link>
+        </li>
+      </ul>
+
+      <!-- Tab normal -->
       <router-link
+        v-else
         :to="tab.route"
         class="nav-link"
         :class="{ active: $route.path.startsWith(tab.route) }"
@@ -14,12 +45,20 @@
 </template>
 
 <script setup>
+import { useRoute } from "vue-router";
+
 defineProps({
   tabs: {
     type: Array,
     required: true,
   },
 });
+
+const route = useRoute();
+
+const isDropdownActive = (tab) => {
+  return tab.children?.some((child) => route.path.startsWith(child.route));
+};
 </script>
 
 <style scoped>

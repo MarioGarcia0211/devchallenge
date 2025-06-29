@@ -77,7 +77,16 @@ const companyTabs = [
   {
     label: "Candidatos",
     icon: "bi bi-people-fill",
-    route: "/company-profile/candidatos",
+    children: [
+      {
+        label: "Retos",
+        route: "/company-profile/candidatesChallengue",
+      },
+      {
+        label: "Vacantes",
+        route: "/company-profile/candidates/rejected",
+      },
+    ],
   },
 ];
 
