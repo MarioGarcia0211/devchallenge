@@ -12,7 +12,7 @@
       v-if="retos.length > 0"
       class="contenedor-card my-4 shadow p-4 rounded"
     >
-      <CandidateTable :postulaciones="retos" />
+      <CandidateTable :postulaciones="retos" :tipo="tipo" />
     </div>
     <div v-else>
       <p>No hay postulaciones pendientes.</p>

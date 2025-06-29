@@ -44,7 +44,7 @@ export const obtenerPostulacionRetoPorEmpresa = async (empresaId, estadoFiltrado
           id: postDoc.id,
           ...postData,
           retoId,
-          datosReto: {
+          devChallenge: {
             id: retoId,
             ...retoData,
           },
@@ -92,7 +92,7 @@ export const obtenerPostulacionVacantePorEmpresa = async (empresaId, estadoFiltr
           id: postDoc.id,
           ...postData,
           vacanteId,
-          datosVacante: {
+          devChallenge: {
             id: vacanteId,
             ...vacanteData,
           },

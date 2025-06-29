@@ -86,19 +86,44 @@
           <td>{{ formatearFecha(postulacion.fechaCreacion) }}</td>
           <!-- Acciones -->
           <td>
-            <button class="btn btn-sm btn-primary me-1">Ver más</button>
+            <button
+              class="btn btn-sm btn-primary me-1"
+              @click="abrirModal(postulacion)"
+            >
+              Ver más
+            </button>
             <button class="btn btn-sm btn-warning">Cambiar estado</button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <CandidateModal
+    v-if="postulacionSeleccionada"
+    :postulacion="postulacionSeleccionada"
+    :tipo="tipo"
+    @close="cerrarModal"
+  />
 </template>
 
 <script setup>
+import { ref } from "vue";
+import CandidateModal from "./CandidateModal.vue";
 const props = defineProps({
   postulaciones: Object,
+  tipo: String,
 });
+
+const postulacionSeleccionada = ref(null);
+
+const abrirModal = (postulacion) => {
+  postulacionSeleccionada.value = postulacion;
+};
+
+const cerrarModal = () => {
+  postulacionSeleccionada.value = null;
+};
 
 const formatearFecha = (timestamp) => {
   if (!timestamp?.toDate) return "Fecha no válida";
