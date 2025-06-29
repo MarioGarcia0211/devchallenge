@@ -92,7 +92,12 @@
             >
               Ver más
             </button>
-            <button class="btn btn-sm btn-warning">Cambiar estado</button>
+            <button
+              class="btn btn-sm btn-warning"
+              @click="abrirModalCambio(postulacion)"
+            >
+              Cambiar estado
+            </button>
           </td>
         </tr>
       </tbody>
@@ -105,17 +110,29 @@
     :tipo="tipo"
     @close="cerrarModal"
   />
+
+  <CandidateStatus
+    v-if="postulacionCambio"
+    :postulacion="postulacionCambio"
+    :tipo="tipo"
+    @close="cerrarModalCambio"
+    @actualizado="actualizarEstado"
+  />
 </template>
 
 <script setup>
 import { ref } from "vue";
 import CandidateModal from "./CandidateModal.vue";
+import CandidateStatus from "./CandidateStatus.vue";
+const emit = defineEmits(["recargar"]);
+
 const props = defineProps({
   postulaciones: Object,
   tipo: String,
 });
 
 const postulacionSeleccionada = ref(null);
+const postulacionCambio = ref(null);
 
 const abrirModal = (postulacion) => {
   postulacionSeleccionada.value = postulacion;
@@ -123,6 +140,19 @@ const abrirModal = (postulacion) => {
 
 const cerrarModal = () => {
   postulacionSeleccionada.value = null;
+};
+
+const abrirModalCambio = (postulacion) => {
+  postulacionCambio.value = postulacion;
+};
+
+const cerrarModalCambio = () => {
+  postulacionCambio.value = null;
+};
+
+const actualizarEstado = () => {
+  cerrarModalCambio();
+  emit("recargar");
 };
 
 const formatearFecha = (timestamp) => {

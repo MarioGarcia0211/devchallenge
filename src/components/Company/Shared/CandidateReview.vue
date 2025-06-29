@@ -15,7 +15,7 @@
       <CandidateTable :postulaciones="retos" :tipo="tipo" />
     </div>
     <div v-else>
-      <p>No hay postulaciones pendientes.</p>
+      <p>No hay candidatos en revisión.</p>
     </div>
   </div>
 </template>

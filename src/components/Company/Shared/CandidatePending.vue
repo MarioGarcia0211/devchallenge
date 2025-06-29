@@ -12,16 +12,20 @@
       v-if="retos.length > 0"
       class="contenedor-card my-4 shadow p-4 rounded"
     >
-      <CandidateTable :postulaciones="retos" :tipo="tipo" />
+      <CandidateTable
+        :postulaciones="retos"
+        :tipo="tipo"
+        @recargar="cargarPostulaciones"
+      />
     </div>
     <div v-else>
-      <p>No hay postulaciones pendientes.</p>
+      <p>No hay candidatos pendientes.</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch, computed, onBeforeUnmount } from "vue";
+import { ref, watch, computed } from "vue";
 import {
   obtenerPostulacionRetoPorEmpresa,
   obtenerPostulacionVacantePorEmpresa,
@@ -45,26 +49,27 @@ const titulo = computed(() => {
   return `${tipoCapitalizado}s ${estadoCapitalizado}`;
 });
 
+const cargarPostulaciones = async () => {
+  loading.value = true;
+  try {
+    retos.value =
+      props.tipo === "vacante"
+        ? await obtenerPostulacionVacantePorEmpresa(props.empresa.uid, estado)
+        : await obtenerPostulacionRetoPorEmpresa(props.empresa.uid, estado);
+
+    console.log("Postulaciones cargadas:", retos.value);
+  } catch (error) {
+    console.error("Error al obtener postulaciones:", error);
+  } finally {
+    loading.value = false;
+  }
+};
+
 watch(
   () => props.empresa,
-  async (nuevaEmpresa) => {
+  (nuevaEmpresa) => {
     if (nuevaEmpresa?.uid) {
-      loading.value = true;
-      try {
-        retos.value =
-          props.tipo === "vacante"
-            ? await obtenerPostulacionVacantePorEmpresa(
-                nuevaEmpresa.uid,
-                estado
-              )
-            : await obtenerPostulacionRetoPorEmpresa(nuevaEmpresa.uid, estado);
-
-        console.log("Postulaciones cargadas:", retos.value);
-      } catch (error) {
-        console.error("Error al obtener postulaciones:", error);
-      } finally {
-        loading.value = false;
-      }
+      cargarPostulaciones();
     }
   },
   { immediate: true }
