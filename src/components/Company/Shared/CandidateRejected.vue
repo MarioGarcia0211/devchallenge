@@ -36,7 +36,7 @@ const props = defineProps({
   tipo: String, // 'reto' o 'vacante'
 });
 
-const estado = "en revisión";
+const estado = "rechazado";
 
 const titulo = computed(() => {
   const tipoCapitalizado =

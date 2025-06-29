@@ -43,7 +43,6 @@ export const obtenerPostulacionRetoPorEmpresa = async (empresaId, estadoFiltrado
         todasLasPostulaciones.push({
           id: postDoc.id,
           ...postData,
-          retoId,
           devChallenge: {
             id: retoId,
             ...retoData,
@@ -91,7 +90,6 @@ export const obtenerPostulacionVacantePorEmpresa = async (empresaId, estadoFiltr
         todasLasPostulaciones.push({
           id: postDoc.id,
           ...postData,
-          vacanteId,
           devChallenge: {
             id: vacanteId,
             ...vacanteData,

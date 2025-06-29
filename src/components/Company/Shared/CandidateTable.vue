@@ -148,7 +148,7 @@ const estadoClass = (estado) => {
       return "badge bg-reject";
     case "en proceso":
       return "badge bg-primary";
-    case "en revision":
+    case "en revisión":
       return "badge bg-review";
     default:
       return "badge bg-secondary";
