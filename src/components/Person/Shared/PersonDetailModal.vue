@@ -137,6 +137,18 @@
               {{ item.empresa.ciudad || "No especificada" }},
               {{ item.empresa.pais }}
             </p>
+
+            <div class="row">
+              <div class="col-md-6">
+                <p><strong>Tipo de empresa: </strong></p>
+                <p>{{ item.empresa.tipoEmpresa }}</p>
+              </div>
+
+              <div class="col-md-6">
+                <p><strong>Industria: </strong></p>
+                <p>{{ item.empresa.industria }}</p>
+              </div>
+            </div>
           </div>
         </div>
 

@@ -61,11 +61,17 @@ export function obtenerDatosUsuario() {
   });
 }
 
+//Funcion para actualizar la foto de perfil
 export const actualizarFotoPerfil = async (uid, tipoUsuario, nuevaUrl, campo = "fotoPerfil") => {
-  const docRef = doc(db, "usuarios", uid, tipoUsuario, "datos");
+  const subcoleccionRef = doc(db, "usuarios", uid, tipoUsuario, "datos");
 
-  await updateDoc(docRef, {
+  await updateDoc(subcoleccionRef, {
     [campo]: nuevaUrl,
+  });
+
+  const usuarioRef = doc(db, "usuarios", uid);
+
+  await updateDoc(usuarioRef, {
     fechaActualizacion: serverTimestamp(),
   });
 };
