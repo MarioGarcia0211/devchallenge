@@ -56,8 +56,6 @@ const cargarPostulaciones = async () => {
       props.tipo === "vacante"
         ? await obtenerPostulacionVacantePorEmpresa(props.empresa.uid, estado)
         : await obtenerPostulacionRetoPorEmpresa(props.empresa.uid, estado);
-
-    console.log("Postulaciones cargadas:", retos.value);
   } catch (error) {
     console.error("Error al obtener postulaciones:", error);
   } finally {

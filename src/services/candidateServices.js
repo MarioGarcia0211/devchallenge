@@ -112,7 +112,6 @@ export const obtenerPostulacionVacantePorEmpresa = async (empresaId, estadoFiltr
 export const editarPostulacionReto = async (retoId, postulacionId, nuevosDatos) => {
   try {
     const postulacionRef = doc(db, "retos", retoId, "postulacionReto", postulacionId);
-    console.log("Editando:", postulacionRef.path, nuevosDatos);
     await updateDoc(postulacionRef, {
       ...nuevosDatos,
       fechaActualizacion: serverTimestamp(),

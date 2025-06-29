@@ -90,12 +90,14 @@
               class="btn btn-sm btn-primary me-1"
               @click="abrirModal(postulacion)"
             >
+              <i class="bi bi-eye me-1"></i>
               Ver más
             </button>
             <button
               class="btn btn-sm btn-warning"
               @click="abrirModalCambio(postulacion)"
             >
+              <i class="bi bi-pencil me-1"></i>
               Cambiar estado
             </button>
           </td>
@@ -240,5 +242,11 @@ img {
 
 .link-personalizado:hover {
   text-decoration: underline;
+}
+
+.btn-sm {
+  font-weight: 500;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
 }
 </style>
