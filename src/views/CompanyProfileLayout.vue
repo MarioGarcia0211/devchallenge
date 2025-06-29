@@ -84,7 +84,7 @@ const companyTabs = [
       },
       {
         label: "Vacantes",
-        route: "/company-profile/candidates/rejected",
+        route: "/company-profile/candidatesVacant",
       },
     ],
   },

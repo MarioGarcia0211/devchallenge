@@ -16,6 +16,7 @@ import Vacant from "../views/Vacant.vue";
 import PersonChallenge from "../components/Person/Challenge/PersonChallenge.vue";
 import PersonVacant from "../components/Person/Vacant/PersonVacant.vue";
 import CompanyCandidateChallenge from "../components/Company/Candidate/CompanyCandidateChallenge.vue";
+import CompanyCandidateVacant from "../components/Company/Candidate/CompanyCandidateVacant.vue";
 
 // Definición de rutas
 const routes = [
@@ -50,6 +51,7 @@ const routes = [
       { path: "challenge", name: "", component: CompanyChallenge },
       { path: "vacant", name: "", component: CompanyVancant },
       { path: "candidatesChallengue", name: "", component: CompanyCandidateChallenge },
+      { path: "candidatesVacant", name: "", component: CompanyCandidateVacant },
     ],
   },
   // Retos

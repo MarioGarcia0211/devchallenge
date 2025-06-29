@@ -1,5 +1,5 @@
 <template>
-  <div>Candidatos de los retos</div>
+  <div>Candidatos de las vacantes</div>
 </template>
 <script setup></script>
 <style></style>
