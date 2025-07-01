@@ -75,7 +75,7 @@ const companyTabs = [
     route: "/company-profile/vacant",
   },
   {
-    label: "Candidatos",
+    label: "Postulaciones",
     icon: "bi bi-people-fill",
     children: [
       {

@@ -17,6 +17,7 @@ import PersonChallenge from "../components/Person/Challenge/PersonChallenge.vue"
 import PersonVacant from "../components/Person/Vacant/PersonVacant.vue";
 import CompanyCandidateChallenge from "../components/Company/Candidate/CompanyCandidateChallenge.vue";
 import CompanyCandidateVacant from "../components/Company/Candidate/CompanyCandidateVacant.vue";
+import CargarDatos from "../views/CargarDatos.vue";
 
 // Definición de rutas
 const routes = [
@@ -26,6 +27,11 @@ const routes = [
   },
   { path: "/login", name: "login", component: Login },
   { path: "/register", name: "register", component: Register },
+  {
+    path: "/cargar-retos",
+    name: "CargarRetos",
+    component: CargarDatos,
+  },
   // Perfil de usuario (persona)
   {
     path: "/user-profile",

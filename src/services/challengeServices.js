@@ -12,6 +12,8 @@ import {
   orderBy,
   getDoc,
   collectionGroup,
+  limit,
+  startAfter,
 } from "firebase/firestore";
 
 //Funcion para crear un retp
@@ -101,12 +103,65 @@ export const obtenerTodosLosRetos = async () => {
   }
 };
 
-export const obtenerRetosConEmpresa = async () => {
+// export const obtenerRetosConEmpresa = async () => {
+//   try {
+//     const q = query(collection(db, "retos"), orderBy("fechaCreacion", "desc"));
+//     const querySnapshot = await getDocs(q);
+
+//     const retos = [];
+
+//     for (const documento of querySnapshot.docs) {
+//       const retoData = documento.data();
+//       const empresaId = retoData.idUsuarioEmpresa;
+
+//       let empresaData = null;
+
+//       try {
+//         const empresaDocRef = doc(
+//           db,
+//           "usuarios",
+//           empresaId,
+//           "empresa",
+//           "datos"
+//         );
+//         const empresaDocSnap = await getDoc(empresaDocRef);
+//         if (empresaDocSnap.exists()) {
+//           empresaData = empresaDocSnap.data();
+//         }
+//       } catch (e) {
+//         console.warn(`Error obteniendo empresa para usuario ${empresaId}:`, e);
+//       }
+
+//       retos.push({
+//         id: documento.id,
+//         ...retoData,
+//         empresa: empresaData, // se agrega la info de la empresa
+//       });
+//     }
+
+//     return retos;
+//   } catch (error) {
+//     console.error("Error al obtener retos con datos de empresa:", error);
+//     throw error;
+//   }
+// };
+
+export const obtenerRetosConEmpresa = async (ultimoDoc = null, cantidad = 6) => {
   try {
-    const q = query(collection(db, "retos"), orderBy("fechaCreacion", "desc"));
+    let q = query(
+      collection(db, "retos"),
+      orderBy("fechaCreacion", "desc"),
+      limit(cantidad)
+    );
+
+    if (ultimoDoc) {
+      q = query(q, startAfter(ultimoDoc));
+    }
+
     const querySnapshot = await getDocs(q);
 
     const retos = [];
+    let lastVisible = null;
 
     for (const documento of querySnapshot.docs) {
       const retoData = documento.data();
@@ -115,13 +170,7 @@ export const obtenerRetosConEmpresa = async () => {
       let empresaData = null;
 
       try {
-        const empresaDocRef = doc(
-          db,
-          "usuarios",
-          empresaId,
-          "empresa",
-          "datos"
-        );
+        const empresaDocRef = doc(db, "usuarios", empresaId, "empresa", "datos");
         const empresaDocSnap = await getDoc(empresaDocRef);
         if (empresaDocSnap.exists()) {
           empresaData = empresaDocSnap.data();
@@ -133,13 +182,15 @@ export const obtenerRetosConEmpresa = async () => {
       retos.push({
         id: documento.id,
         ...retoData,
-        empresa: empresaData, // se agrega la info de la empresa
+        empresa: empresaData,
       });
+
+      lastVisible = documento; // guardar el último doc del lote
     }
 
-    return retos;
+    return { retos, lastVisible };
   } catch (error) {
-    console.error("Error al obtener retos con datos de empresa:", error);
+    console.error("Error al obtener retos paginados:", error);
     throw error;
   }
 };
