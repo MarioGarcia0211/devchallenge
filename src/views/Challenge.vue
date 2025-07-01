@@ -46,7 +46,7 @@
 
       <!-- Botón "Cargar más" -->
       <div class="text-center my-4" v-if="hayMas && !loading">
-        <button class="btn btn-outline-primary" @click="cargarRetos">
+        <button class="btn btn-primary" @click="cargarRetos">
           Cargar más retos
         </button>
       </div>
@@ -57,6 +57,7 @@
       </div>
     </div>
   </div>
+  <ScrollTopButton />
   <Footer />
 </template>
 
@@ -69,6 +70,7 @@ import { obtenerRetosConEmpresa } from "../services/challengeServices";
 import Navbar from "../components/Navbar/Navbar.vue";
 import Footer from "../components/Footer/Footer.vue";
 import ItemCard from "../components/Shared/ItemCard.vue";
+import ScrollTopButton from "../components/Shared/ScrollTopButton.vue";
 
 const persona = ref({});
 const retos = ref([]);

@@ -12,6 +12,8 @@ import {
   orderBy,
   getDoc,
   collectionGroup,
+  limit,
+  startAfter,
 } from "firebase/firestore";
 
 //Funcion para crear una vacante
@@ -79,27 +81,74 @@ export const eliminarVacantePorID = async (idVacante) => {
   }
 };
 
-export const obtenerVacanteConEmpresa = async () => {
+// export const obtenerVacanteConEmpresa = async () => {
+//   try {
+//     const q = query(collection(db, "vacantes"), orderBy("fechaCreacion", "desc"));
+//     const querySnapshot = await getDocs(q);
+
+//     const vacantes = [];
+
+//     for (const documento of querySnapshot.docs) {
+//       const vacanteData = documento.data();
+//       const empresaId = vacanteData.idUsuarioEmpresa;
+
+//       let empresaData = null;
+
+//       try {
+//         const empresaDocRef = doc(
+//           db,
+//           "usuarios",
+//           empresaId,
+//           "empresa",
+//           "datos"
+//         );
+//         const empresaDocSnap = await getDoc(empresaDocRef);
+//         if (empresaDocSnap.exists()) {
+//           empresaData = empresaDocSnap.data();
+//         }
+//       } catch (e) {
+//         console.warn(`Error obteniendo empresa para usuario ${empresaId}:`, e);
+//       }
+
+//       vacantes.push({
+//         id: documento.id,
+//         ...vacanteData,
+//         empresa: empresaData, // se agrega la info de la empresa
+//       });
+//     }
+
+//     return vacantes;
+//   } catch (error) {
+//     console.error("Error al obtener vacantes con datos de empresa:", error);
+//     throw error;
+//   }
+// };
+
+export const obtenerVacanteConEmpresa = async (ultimoDoc = null, cantidad = 6) => {
   try {
-    const q = query(collection(db, "vacantes"), orderBy("fechaCreacion", "desc"));
+    let q = query(
+      collection(db, "vacantes"),
+      orderBy("fechaCreacion", "desc"),
+      limit(cantidad)
+    );
+
+    if (ultimoDoc) {
+      q = query(q, startAfter(ultimoDoc));
+    }
+
     const querySnapshot = await getDocs(q);
 
     const vacantes = [];
+    let lastVisible = null;
 
     for (const documento of querySnapshot.docs) {
-      const vacanteData = documento.data();
-      const empresaId = vacanteData.idUsuarioEmpresa;
+      const retoData = documento.data();
+      const empresaId = retoData.idUsuarioEmpresa;
 
       let empresaData = null;
 
       try {
-        const empresaDocRef = doc(
-          db,
-          "usuarios",
-          empresaId,
-          "empresa",
-          "datos"
-        );
+        const empresaDocRef = doc(db, "usuarios", empresaId, "empresa", "datos");
         const empresaDocSnap = await getDoc(empresaDocRef);
         if (empresaDocSnap.exists()) {
           empresaData = empresaDocSnap.data();
@@ -110,14 +159,16 @@ export const obtenerVacanteConEmpresa = async () => {
 
       vacantes.push({
         id: documento.id,
-        ...vacanteData,
-        empresa: empresaData, // se agrega la info de la empresa
+        ...retoData,
+        empresa: empresaData,
       });
+
+      lastVisible = documento; // guardar el último doc del lote
     }
 
-    return vacantes;
+    return { vacantes, lastVisible };
   } catch (error) {
-    console.error("Error al obtener vacantes con datos de empresa:", error);
+    console.error("Error al obtener vacantes paginados:", error);
     throw error;
   }
 };

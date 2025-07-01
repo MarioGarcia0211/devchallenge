@@ -24,6 +24,7 @@
     @actualizado="actualizarImagen"
   />
 
+  <ScrollTopButton />
   <Footer />
 </template>
 
@@ -35,6 +36,7 @@ import Footer from "../components/Footer/Footer.vue";
 import ProfileHeader from "../components/Profile/ProfileHeader.vue";
 import ProfileTabs from "../components/Profile/ProfileTabs.vue";
 import ProfileModal from "../components/Profile/ProfileModal.vue";
+import ScrollTopButton from "../components/Shared/ScrollTopButton.vue";
 
 // Datos del usuario tipo persona
 const persona = ref({
