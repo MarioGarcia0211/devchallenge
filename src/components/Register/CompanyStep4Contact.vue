@@ -103,11 +103,18 @@
         Atrás
       </button>
       <button
-        class="btn btn-primary"
+        class="btn btn-primary d-flex justify-content-center align-items-center"
         @click="validarYEnviar"
-        :disabled="!formularioValido"
+        :disabled="!formularioValido || loading"
+        style="min-width: 120px; height: 38px"
       >
-        Registrarse
+        <span
+          v-if="loading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        <span v-else>Registrarse</span>
       </button>
     </div>
   </div>
@@ -127,6 +134,7 @@ const mostrarConfirmarContrasena = ref(false);
 const props = defineProps(["modelValue"]);
 const emit = defineEmits(["update:modelValue", "enviar", "anterior"]);
 const toastRef = ref(null);
+const loading = ref(false);
 
 const form = computed({
   get: () => props.modelValue,
@@ -180,14 +188,19 @@ async function validarYEnviar() {
   validarCampo("confirmarContrasena", confirmarContrasena.value);
 
   if (!formularioValido.value) return;
+
+  loading.value = true;
+
   const existe = await verificarCorreoUnico(form.value.correo);
 
   if (existe) {
     errores.correo = "Este correo ya está registrado.";
     toastRef.value?.mostrarToast("error", errores.correo);
+    loading.value = false;
     return;
   }
 
   emit("enviar");
+  loading.value = false;
 }
 </script>
