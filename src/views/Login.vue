@@ -27,7 +27,7 @@
           <div class="mb-3">
             <label class="form-label">Correo electrónico</label>
             <input
-              type="email"
+              type="text"
               class="form-control"
               v-model="correo"
               :class="{ 'is-invalid': correoError }"
@@ -61,8 +61,14 @@
 
           <!-- Botón -->
           <div class="d-grid">
-            <button type="submit" class="btn btn-primary">
-              Iniciar Sesión
+            <button type="submit" class="btn btn-primary" :disabled="loading">
+              <span
+                v-if="loading"
+                class="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              <span v-else>Iniciar Sesión</span>
             </button>
           </div>
         </form>
@@ -94,6 +100,7 @@ const toastRef = ref(null);
 const mostrarClave = ref(false);
 const correoError = ref("");
 const claveError = ref("");
+const loading = ref(false);
 
 const login = async () => {
   correoError.value = "";
@@ -126,11 +133,7 @@ const login = async () => {
     return;
   }
 
-  // if (clave.value.length < 8) {
-  //   claveError.value = "La contraseña debe tener al menos 8 caracteres";
-  //   toastRef.value?.mostrarToast("error", claveError.value);
-  //   return;
-  // }
+  loading.value = true;
 
   try {
     const usuario = await iniciarSesion(correo.value, clave.value);
@@ -147,6 +150,8 @@ const login = async () => {
     }
   } catch (error) {
     toastRef.value?.mostrarToast("error", error.message || error);
+  } finally {
+    loading.value = false;
   }
 };
 

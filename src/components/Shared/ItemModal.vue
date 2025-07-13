@@ -152,16 +152,23 @@
 
           <button
             v-if="!estaRegistrado"
-            class="btn btn-primary"
+            class="btn btn-primary d-flex justify-content-center align-items-center"
             @click="participar"
-            :disabled="item.estado.toLowerCase() === 'cerrado'"
+            :disabled="item.estado.toLowerCase() === 'cerrado' || loading"
             :title="
               item.estado.toLowerCase() === 'cerrado'
                 ? 'No puedes participar en un ' + tipo + ' cerrado'
                 : ''
             "
+            style="min-width: 120px; height: 38px"
           >
-            Participar
+            <span
+              v-if="loading"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            <span v-else>Participar</span>
           </button>
 
           <button v-else class="btn btn-success" disabled>Participando</button>
@@ -197,6 +204,7 @@ const emit = defineEmits(["cerrar", "registroExitoso"]);
 const estaRegistrado = ref(false);
 const tabActivo = ref("detalle");
 const toastRef = ref(null);
+const loading = ref(false);
 
 const cerrarModal = () => {
   emit("cerrar");
@@ -237,17 +245,19 @@ const participar = async () => {
   const uid = props.persona?.uid;
   const id = props.item?.id;
 
+  if (estaRegistrado.value) {
+    alert("Ya estás registrado en este " + props.tipo + ".");
+    return;
+  }
+
+  if (props.item?.estado?.toLowerCase() === "cerrado") {
+    alert("Este " + props.tipo + " está cerrado. No puedes registrarte.");
+    return;
+  }
+
+  loading.value = true;
+
   try {
-    if (estaRegistrado.value) {
-      alert("Ya estás registrado en este " + props.tipo + ".");
-      return;
-    }
-
-    if (props.item?.estado?.toLowerCase() === "cerrado") {
-      alert("Este " + props.tipo + " está cerrado. No puedes registrarte.");
-      return;
-    }
-
     if (props.tipo === "reto") {
       await registrarParticipacionReto(id, uid);
     } else {
@@ -259,6 +269,8 @@ const participar = async () => {
   } catch (error) {
     console.error("Error al participar:", error);
     alert("Ocurrió un error al registrarte.");
+  } finally {
+    loading.value = false;
   }
 };
 </script>

@@ -24,12 +24,14 @@
       </div>
     </div>
 
-    <div v-if="loading">
+    <!-- Cargando -->
+    <div v-if="loading && retos.length === 0" class="text-center my-4">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
 
+    <!-- Retos -->
     <div v-else>
       <div v-if="retos.length > 0" class="row">
         <div
@@ -41,8 +43,21 @@
         </div>
       </div>
       <p v-else>No hay retos disponibles en este momento.</p>
+
+      <!-- Botón "Cargar más" -->
+      <div class="text-center my-4" v-if="hayMas && !loading">
+        <button class="btn btn-primary" @click="cargarRetos">
+          Cargar más retos
+        </button>
+      </div>
+
+      <!-- Spinner mientras se cargan más -->
+      <div class="text-center my-3" v-if="loading && retos.length > 0">
+        <div class="spinner-border text-primary" role="status"></div>
+      </div>
     </div>
   </div>
+  <ScrollTopButton />
   <Footer />
 </template>
 
@@ -55,10 +70,14 @@ import { obtenerRetosConEmpresa } from "../services/challengeServices";
 import Navbar from "../components/Navbar/Navbar.vue";
 import Footer from "../components/Footer/Footer.vue";
 import ItemCard from "../components/Shared/ItemCard.vue";
+import ScrollTopButton from "../components/Shared/ScrollTopButton.vue";
 
 const persona = ref({});
 const retos = ref([]);
-const loading = ref(true);
+const loading = ref(false);
+const lastVisible = ref(null);
+const hayMas = ref(true);
+const retosPorPagina = 6;
 const router = useRouter();
 
 function goBack() {
@@ -69,13 +88,30 @@ function goBack() {
   }
 }
 
+const cargarRetos = async () => {
+  try {
+    loading.value = true;
+    const { retos: nuevosRetos, lastVisible: nuevoUltimo } =
+      await obtenerRetosConEmpresa(lastVisible.value, retosPorPagina);
+
+    if (nuevosRetos.length < retosPorPagina) {
+      hayMas.value = false;
+    }
+
+    retos.value.push(...nuevosRetos);
+    lastVisible.value = nuevoUltimo;
+  } catch (error) {
+    console.error("Error al cargar retos paginados:", error);
+  } finally {
+    loading.value = false;
+  }
+};
+
 onMounted(async () => {
   try {
+    loading.value = true;
     persona.value = await obtenerDatosUsuario();
-    console.log("Datos del usuario:", persona.value);
-
-    retos.value = await obtenerRetosConEmpresa();
-    console.log("Retos disponibles:", retos.value);
+    await cargarRetos();
   } catch (error) {
     console.error("Error al cargar datos:", error);
   } finally {

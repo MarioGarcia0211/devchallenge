@@ -16,14 +16,17 @@
           <!-- Participante -->
           <td class="text-center">
             <div class="d-flex align-items-center gap-2">
-              <img
+              <div
+                class="foto-container"
                 v-if="postulacion.datosUsuario?.fotoPerfil"
-                :src="postulacion.datosUsuario.fotoPerfil"
-                alt="Foto perfil"
-                class="rounded"
-                width="60"
-                height="60"
-              />
+              >
+                <img
+                  :src="postulacion.datosUsuario.fotoPerfil"
+                  alt="Foto perfil"
+                  class="foto-perfil"
+                />
+              </div>
+
               <div>
                 <strong
                   >{{ postulacion.datosUsuario?.nombres }}
@@ -196,8 +199,29 @@ const estadoClass = (estado) => {
   padding: 1rem 2.1rem;
 }
 
-img {
+.table th {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 1rem 1.25rem;
+  text-transform: uppercase;
+}
+
+.foto-container {
+  background-color: var(--color-primary-dark);
+  border-radius: 50%;
+  padding: 2px;
+  display: inline-block;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+}
+
+.foto-perfil {
+  width: 60px;
+  height: 60px;
   object-fit: cover;
+  border-radius: 50%;
+  display: block;
 }
 
 .badge {
