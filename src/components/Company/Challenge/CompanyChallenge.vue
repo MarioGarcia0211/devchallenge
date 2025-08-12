@@ -53,6 +53,18 @@
     tipo="reto"
     @cerrar="mostrarDetalle = false"
   />
+
+  <!-- Modal eliminar -->
+  <ConfirmModal
+    :visible="mostrarConfirmacion"
+    :titulo="'Eliminar reto'"
+    :mensaje="`¿Estás seguro de eliminar el reto '${retoAEliminar?.nombreReto}'?`"
+    @confirmar="confirmarEliminacion"
+    @cancelar="cancelarEliminacion"
+  />
+
+  <!-- Toast -->
+  <Toast ref="toastRef" />
 </template>
 
 <script setup>
@@ -64,6 +76,8 @@ import {
 import CompanyForm from "../Shared/CompanyForm.vue";
 import CompanyCard from "../Shared/CompanyCard.vue";
 import CompanyDetailModal from "../Shared/CompanyDetailModal.vue";
+import ConfirmModal from "../Shared/ConfirmModal.vue";
+import Toast from "../../Toast/Toast.vue";
 
 const props = defineProps({
   empresa: Object,
@@ -75,6 +89,9 @@ const retoAEditar = ref(null);
 const cargando = ref(true);
 const mostrarDetalle = ref(false);
 const itemSeleccionado = ref(null);
+const mostrarConfirmacion = ref(false);
+const retoAEliminar = ref(null);
+const toastRef = ref(null);
 
 // Abrir nuevo reto
 const abrirNuevoReto = () => {
@@ -123,15 +140,27 @@ const editarReto = (reto) => {
 };
 
 // Eliminar reto
-const eliminarReto = async (reto) => {
-  if (confirm(`¿Estás seguro de eliminar el reto "${reto.nombre}"?`)) {
-    try {
-      await eliminarRetoPorID(reto.id);
-      await cargarRetos();
-    } catch (error) {
-      console.error("Error al eliminar el reto:", error);
-    }
+const eliminarReto = (reto) => {
+  retoAEliminar.value = reto;
+  mostrarConfirmacion.value = true;
+};
+
+const confirmarEliminacion = async () => {
+  try {
+    await eliminarRetoPorID(retoAEliminar.value.id);
+    toastRef.value?.mostrarToast("success", "Reto eliminado correctamente.");
+    await cargarRetos();
+  } catch (error) {
+    console.error("Error al eliminar el reto:", error);
+  } finally {
+    mostrarConfirmacion.value = false;
+    retoAEliminar.value = null;
   }
+};
+
+const cancelarEliminacion = () => {
+  mostrarConfirmacion.value = false;
+  retoAEliminar.value = null;
 };
 
 // Reaccionar a cambios en la empresa

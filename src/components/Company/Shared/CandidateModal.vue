@@ -4,7 +4,9 @@
     tabindex="-1"
     style="display: block; background-color: rgba(0, 0, 0, 0.5)"
   >
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div
+      class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
+    >
       <div class="modal-content">
         <!-- Header -->
         <div class="modal-header align-items-start flex-column border-0 pb-0">

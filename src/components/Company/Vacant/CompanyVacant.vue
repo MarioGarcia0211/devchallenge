@@ -36,14 +36,6 @@
         @eliminar="eliminarVacante"
         @ver-detalle="verDetalle"
       />
-
-      <CompanyDetailModal
-        :visible="mostrarDetalle"
-        :item="itemSeleccionado"
-        :empresa="empresa"
-        tipo="vacante"
-        @cerrar="mostrarDetalle = false"
-      />
     </div>
   </div>
 
@@ -51,6 +43,27 @@
   <div v-else class="text-muted text-center mt-4">
     No hay vacantes registradas.
   </div>
+
+  <!-- Modal de detalle -->
+  <CompanyDetailModal
+    :visible="mostrarDetalle"
+    :item="itemSeleccionado"
+    :empresa="empresa"
+    tipo="vacante"
+    @cerrar="mostrarDetalle = false"
+  />
+
+  <!-- Modal confirmacion -->
+  <ConfirmModal
+    :visible="mostrarConfirmacion"
+    :titulo="'Eliminar vacante'"
+    :mensaje="`¿Estás seguro de eliminar la vacante '${vacanteAEliminar?.nombreVacante}'?`"
+    @confirmar="confirmarEliminacion"
+    @cancelar="cancelarEliminacion"
+  />
+
+  <!-- Toast -->
+  <Toast ref="toastRef" />
 </template>
 
 <script setup>
@@ -62,6 +75,8 @@ import {
 } from "../../../services/vacantServices";
 import CompanyCard from "../Shared/CompanyCard.vue";
 import CompanyDetailModal from "../Shared/CompanyDetailModal.vue";
+import ConfirmModal from "../Shared/ConfirmModal.vue";
+import Toast from "../../Toast/Toast.vue";
 
 const props = defineProps({
   empresa: Object,
@@ -73,6 +88,9 @@ const cargando = ref(true);
 const vacanteAEditar = ref(null);
 const mostrarDetalle = ref(false);
 const itemSeleccionado = ref(null);
+const mostrarConfirmacion = ref(false);
+const vacanteAEliminar = ref(null);
+const toastRef = ref(null);
 
 // Abrir nueva vacante
 const abrirNuevaVacante = () => {
@@ -115,15 +133,27 @@ const editarVacante = (vacante) => {
   mostrarModal.value = true;
 };
 
-const eliminarVacante = async (vacante) => {
-  if (confirm(`¿Estás seguro de eliminar la vacante "${vacante.nombre}"?`)) {
-    try {
-      await eliminarVacantePorID(vacante.id);
-      await cargarVacantes();
-    } catch (error) {
-      console.error("Error al eliminar la vacante:", error);
-    }
+const eliminarVacante = (vacante) => {
+  vacanteAEliminar.value = vacante;
+  mostrarConfirmacion.value = true;
+};
+
+const confirmarEliminacion = async () => {
+  try {
+    await eliminarVacantePorID(vacanteAEliminar.value.id);
+    toastRef.value?.mostrarToast("success", "Vacante eliminada correctamente.");
+    await cargarVacantes();
+  } catch (error) {
+    console.error("Error al eliminar la vacante:", error);
+  } finally {
+    mostrarConfirmacion.value = false;
+    vacanteAEliminar.value = null;
   }
+};
+
+const cancelarEliminacion = () => {
+  mostrarConfirmacion.value = false;
+  vacanteAEliminar.value = null;
 };
 
 watch(
